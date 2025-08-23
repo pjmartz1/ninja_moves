@@ -1,0 +1,22 @@
+{
+  "test_duration": 21.052610158920288,
+  "concurrent_users": 100,
+  "endpoint": "/health",
+  "total_requests": 12900,
+  "successful_requests": 12900,
+  "failed_requests": 0,
+  "success_rate": 100.0,
+  "avg_response_time": 0.022087246780247653,
+  "min_response_time": 0.006410121917724609,
+  "max_response_time": 0.3028693199157715,
+  "p95_response_time": 0.03613792657852173,
+  "requests_per_second": 612.5901100880819,
+  "system_stats": {
+    "initial_cpu": 9.6,
+    "final_cpu": 15.3,
+    "cpu_increase": 5.700000000000001,
+    "initial_memory": 66.1,
+    "final_memory": 64.9,
+    "memory_increase": -1.1999999999999886
+  }
+}

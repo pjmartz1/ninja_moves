@@ -1,0 +1,26 @@
+# PDF Table Extractor - Backend Dependencies
+# P0 Security and Core Processing Libraries
+
+# FastAPI and server components
+fastapi==0.104.1
+uvicorn[standard]==0.24.0
+python-multipart==0.0.6
+slowapi==0.1.9
+
+# PDF processing libraries
+pypdf==3.17.4
+pdfplumber==0.10.3
+camelot-py[cv]==0.10.1
+tabula-py==2.7.0
+
+# Data processing and export
+pandas==2.1.4
+openpyxl==3.1.2
+
+# Security and validation
+pydantic==2.5.2
+python-magic-bin==0.4.14  # Windows-compatible magic
+
+# Development and testing
+pytest==7.4.3
+pytest-asyncio==0.21.1

@@ -1,0 +1,614 @@
+{
+  "total_files": 5,
+  "successful_extractions": 5,
+  "failed_extractions": 0,
+  "average_confidence": 0.991,
+  "average_processing_time": 0.0631014347076416,
+  "category_results": {
+    "financial": {
+      "category": "financial",
+      "total_files": 1,
+      "successful_extractions": 1,
+      "failed_extractions": 0,
+      "files": [
+        {
+          "file_path": "C:\\Users\\pmart\\Desktop\\PDF Project\\test_pdfs\\financial\\balance_sheet.pdf",
+          "file_name": "balance_sheet.pdf",
+          "category": "financial",
+          "extraction_successful": true,
+          "tables_found": 1,
+          "average_confidence": 0.963,
+          "processing_time": 0.056482791900634766,
+          "extraction_method": "pdfplumber",
+          "error_message": "",
+          "table_details": [
+            {
+              "table_index": 0,
+              "rows": 12,
+              "columns": 4,
+              "confidence": 0.963,
+              "has_data": true,
+              "sample_data": {
+                "Assets": {
+                  "0": "Current Assets",
+                  "1": "Cash and Equivalents"
+                },
+                "": {
+                  "0": "",
+                  "1": "$45,000"
+                },
+                "Liabilities & Equity": {
+                  "0": "Current Liabilities",
+                  "1": "Accounts Payable"
+                }
+              }
+            }
+          ]
+        }
+      ],
+      "success_rate": 100.0
+    },
+    "research": {
+      "category": "research",
+      "total_files": 1,
+      "successful_extractions": 1,
+      "failed_extractions": 0,
+      "files": [
+        {
+          "file_path": "C:\\Users\\pmart\\Desktop\\PDF Project\\test_pdfs\\research\\customer_satisfaction.pdf",
+          "file_name": "customer_satisfaction.pdf",
+          "category": "research",
+          "extraction_successful": true,
+          "tables_found": 1,
+          "average_confidence": 0.992,
+          "processing_time": 0.04881691932678223,
+          "extraction_method": "pdfplumber",
+          "error_message": "",
+          "table_details": [
+            {
+              "table_index": 0,
+              "rows": 10,
+              "columns": 5,
+              "confidence": 0.992,
+              "has_data": true,
+              "sample_data": {
+                "Demographics": {
+                  "0": "Age 18-25",
+                  "1": "Age 26-35"
+                },
+                "Sample Size": {
+                  "0": "245",
+                  "1": "312"
+                },
+                "Avg. Satisfaction": {
+                  "0": "7.2",
+                  "1": "7.8"
+                },
+                "Std. Deviation": {
+                  "0": "1.4",
+                  "1": "1.2"
+                },
+                "Confidence Interval": {
+                  "0": "6.8 - 7.6",
+                  "1": "7.5 - 8.1"
+                }
+              }
+            }
+          ]
+        }
+      ],
+      "success_rate": 100.0
+    },
+    "business": {
+      "category": "business",
+      "total_files": 1,
+      "successful_extractions": 1,
+      "failed_extractions": 0,
+      "files": [
+        {
+          "file_path": "C:\\Users\\pmart\\Desktop\\PDF Project\\test_pdfs\\business\\inventory_report.pdf",
+          "file_name": "inventory_report.pdf",
+          "category": "business",
+          "extraction_successful": true,
+          "tables_found": 1,
+          "average_confidence": 1.0,
+          "processing_time": 0.04131293296813965,
+          "extraction_method": "pdfplumber",
+          "error_message": "",
+          "table_details": [
+            {
+              "table_index": 0,
+              "rows": 7,
+              "columns": 6,
+              "confidence": 1.0,
+              "has_data": true,
+              "sample_data": {
+                "Product Code": {
+                  "0": "PRD-1000",
+                  "1": "PRD-1001"
+                },
+                "Description": {
+                  "0": "Widget A",
+                  "1": "Widget B"
+                },
+                "Qty in Stock": {
+                  "0": "235",
+                  "1": "498"
+                },
+                "Unit Cost": {
+                  "0": "$43.22",
+                  "1": "$41.99"
+                },
+                "Total Value": {
+                  "0": "$10,156.70",
+                  "1": "$20,911.02"
+                },
+                "Reorder Level": {
+                  "0": "61",
+                  "1": "52"
+                }
+              }
+            }
+          ]
+        }
+      ],
+      "success_rate": 100.0
+    },
+    "complex": {
+      "category": "complex",
+      "total_files": 1,
+      "successful_extractions": 1,
+      "failed_extractions": 0,
+      "files": [
+        {
+          "file_path": "C:\\Users\\pmart\\Desktop\\PDF Project\\test_pdfs\\complex\\quarterly_report.pdf",
+          "file_name": "quarterly_report.pdf",
+          "category": "complex",
+          "extraction_successful": true,
+          "tables_found": 2,
+          "average_confidence": 1.0,
+          "processing_time": 0.12424325942993164,
+          "extraction_method": "pdfplumber",
+          "error_message": "",
+          "table_details": [
+            {
+              "table_index": 0,
+              "rows": 5,
+              "columns": 7,
+              "confidence": 1.0,
+              "has_data": true,
+              "sample_data": {
+                "Region": {
+                  "0": "North America",
+                  "1": "Europe"
+                },
+                "Q1": {
+                  "0": "$1.2M",
+                  "1": "$800K"
+                },
+                "Q2": {
+                  "0": "$1.4M",
+                  "1": "$900K"
+                },
+                "Q3": {
+                  "0": "$1.5M",
+                  "1": "$1.0M"
+                },
+                "Q4": {
+                  "0": "$1.8M",
+                  "1": "$1.1M"
+                },
+                "Total": {
+                  "0": "$5.9M",
+                  "1": "$3.8M"
+                },
+                "% Growth": {
+                  "0": "+15%",
+                  "1": "+12%"
+                }
+              }
+            },
+            {
+              "table_index": 1,
+              "rows": 5,
+              "columns": 6,
+              "confidence": 1.0,
+              "has_data": true,
+              "sample_data": {
+                "Employee": {
+                  "0": "John Smith",
+                  "1": "Sarah Jones"
+                },
+                "Department": {
+                  "0": "Sales",
+                  "1": "Marketing"
+                },
+                "Sales Target": {
+                  "0": "$200K",
+                  "1": "$150K"
+                },
+                "Actual Sales": {
+                  "0": "$245K",
+                  "1": "$185K"
+                },
+                "Achievement %": {
+                  "0": "122.5%",
+                  "1": "123.3%"
+                },
+                "Bonus": {
+                  "0": "$5,000",
+                  "1": "$4,500"
+                }
+              }
+            }
+          ]
+        }
+      ],
+      "success_rate": 100.0
+    },
+    "edge_cases": {
+      "category": "edge_cases",
+      "total_files": 1,
+      "successful_extractions": 1,
+      "failed_extractions": 0,
+      "files": [
+        {
+          "file_path": "C:\\Users\\pmart\\Desktop\\PDF Project\\test_pdfs\\edge_cases\\sparse_tables.pdf",
+          "file_name": "sparse_tables.pdf",
+          "category": "edge_cases",
+          "extraction_successful": true,
+          "tables_found": 2,
+          "average_confidence": 1.0,
+          "processing_time": 0.04465126991271973,
+          "extraction_method": "pdfplumber",
+          "error_message": "",
+          "table_details": [
+            {
+              "table_index": 0,
+              "rows": 5,
+              "columns": 5,
+              "confidence": 1.0,
+              "has_data": true,
+              "sample_data": {
+                "Category": {
+                  "0": "A",
+                  "1": "B"
+                },
+                "Value 1": {
+                  "0": "100",
+                  "1": ""
+                },
+                "Value 2": {
+                  "0": "",
+                  "1": "200"
+                },
+                "Value 3": {
+                  "0": "150",
+                  "1": ""
+                },
+                "Notes": {
+                  "0": "Complete",
+                  "1": "Partial data"
+                }
+              }
+            },
+            {
+              "table_index": 1,
+              "rows": 6,
+              "columns": 5,
+              "confidence": 1.0,
+              "has_data": true,
+              "sample_data": {
+                "Item": {
+                  "0": "Item #1",
+                  "1": "Item #2"
+                },
+                "Price (€)": {
+                  "0": "€12.50",
+                  "1": "€8.99"
+                },
+                "Quantity": {
+                  "0": "5",
+                  "1": "10"
+                },
+                "Total": {
+                  "0": "€62.50",
+                  "1": "€89.90"
+                },
+                "Status": {
+                  "0": "3 Available",
+                  "1": "n Low Stock"
+                }
+              }
+            }
+          ]
+        }
+      ],
+      "success_rate": 100.0
+    }
+  },
+  "detailed_results": [
+    {
+      "file_path": "C:\\Users\\pmart\\Desktop\\PDF Project\\test_pdfs\\financial\\balance_sheet.pdf",
+      "file_name": "balance_sheet.pdf",
+      "category": "financial",
+      "extraction_successful": true,
+      "tables_found": 1,
+      "average_confidence": 0.963,
+      "processing_time": 0.056482791900634766,
+      "extraction_method": "pdfplumber",
+      "error_message": "",
+      "table_details": [
+        {
+          "table_index": 0,
+          "rows": 12,
+          "columns": 4,
+          "confidence": 0.963,
+          "has_data": true,
+          "sample_data": {
+            "Assets": {
+              "0": "Current Assets",
+              "1": "Cash and Equivalents"
+            },
+            "": {
+              "0": "",
+              "1": "$45,000"
+            },
+            "Liabilities & Equity": {
+              "0": "Current Liabilities",
+              "1": "Accounts Payable"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "file_path": "C:\\Users\\pmart\\Desktop\\PDF Project\\test_pdfs\\research\\customer_satisfaction.pdf",
+      "file_name": "customer_satisfaction.pdf",
+      "category": "research",
+      "extraction_successful": true,
+      "tables_found": 1,
+      "average_confidence": 0.992,
+      "processing_time": 0.04881691932678223,
+      "extraction_method": "pdfplumber",
+      "error_message": "",
+      "table_details": [
+        {
+          "table_index": 0,
+          "rows": 10,
+          "columns": 5,
+          "confidence": 0.992,
+          "has_data": true,
+          "sample_data": {
+            "Demographics": {
+              "0": "Age 18-25",
+              "1": "Age 26-35"
+            },
+            "Sample Size": {
+              "0": "245",
+              "1": "312"
+            },
+            "Avg. Satisfaction": {
+              "0": "7.2",
+              "1": "7.8"
+            },
+            "Std. Deviation": {
+              "0": "1.4",
+              "1": "1.2"
+            },
+            "Confidence Interval": {
+              "0": "6.8 - 7.6",
+              "1": "7.5 - 8.1"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "file_path": "C:\\Users\\pmart\\Desktop\\PDF Project\\test_pdfs\\business\\inventory_report.pdf",
+      "file_name": "inventory_report.pdf",
+      "category": "business",
+      "extraction_successful": true,
+      "tables_found": 1,
+      "average_confidence": 1.0,
+      "processing_time": 0.04131293296813965,
+      "extraction_method": "pdfplumber",
+      "error_message": "",
+      "table_details": [
+        {
+          "table_index": 0,
+          "rows": 7,
+          "columns": 6,
+          "confidence": 1.0,
+          "has_data": true,
+          "sample_data": {
+            "Product Code": {
+              "0": "PRD-1000",
+              "1": "PRD-1001"
+            },
+            "Description": {
+              "0": "Widget A",
+              "1": "Widget B"
+            },
+            "Qty in Stock": {
+              "0": "235",
+              "1": "498"
+            },
+            "Unit Cost": {
+              "0": "$43.22",
+              "1": "$41.99"
+            },
+            "Total Value": {
+              "0": "$10,156.70",
+              "1": "$20,911.02"
+            },
+            "Reorder Level": {
+              "0": "61",
+              "1": "52"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "file_path": "C:\\Users\\pmart\\Desktop\\PDF Project\\test_pdfs\\complex\\quarterly_report.pdf",
+      "file_name": "quarterly_report.pdf",
+      "category": "complex",
+      "extraction_successful": true,
+      "tables_found": 2,
+      "average_confidence": 1.0,
+      "processing_time": 0.12424325942993164,
+      "extraction_method": "pdfplumber",
+      "error_message": "",
+      "table_details": [
+        {
+          "table_index": 0,
+          "rows": 5,
+          "columns": 7,
+          "confidence": 1.0,
+          "has_data": true,
+          "sample_data": {
+            "Region": {
+              "0": "North America",
+              "1": "Europe"
+            },
+            "Q1": {
+              "0": "$1.2M",
+              "1": "$800K"
+            },
+            "Q2": {
+              "0": "$1.4M",
+              "1": "$900K"
+            },
+            "Q3": {
+              "0": "$1.5M",
+              "1": "$1.0M"
+            },
+            "Q4": {
+              "0": "$1.8M",
+              "1": "$1.1M"
+            },
+            "Total": {
+              "0": "$5.9M",
+              "1": "$3.8M"
+            },
+            "% Growth": {
+              "0": "+15%",
+              "1": "+12%"
+            }
+          }
+        },
+        {
+          "table_index": 1,
+          "rows": 5,
+          "columns": 6,
+          "confidence": 1.0,
+          "has_data": true,
+          "sample_data": {
+            "Employee": {
+              "0": "John Smith",
+              "1": "Sarah Jones"
+            },
+            "Department": {
+              "0": "Sales",
+              "1": "Marketing"
+            },
+            "Sales Target": {
+              "0": "$200K",
+              "1": "$150K"
+            },
+            "Actual Sales": {
+              "0": "$245K",
+              "1": "$185K"
+            },
+            "Achievement %": {
+              "0": "122.5%",
+              "1": "123.3%"
+            },
+            "Bonus": {
+              "0": "$5,000",
+              "1": "$4,500"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "file_path": "C:\\Users\\pmart\\Desktop\\PDF Project\\test_pdfs\\edge_cases\\sparse_tables.pdf",
+      "file_name": "sparse_tables.pdf",
+      "category": "edge_cases",
+      "extraction_successful": true,
+      "tables_found": 2,
+      "average_confidence": 1.0,
+      "processing_time": 0.04465126991271973,
+      "extraction_method": "pdfplumber",
+      "error_message": "",
+      "table_details": [
+        {
+          "table_index": 0,
+          "rows": 5,
+          "columns": 5,
+          "confidence": 1.0,
+          "has_data": true,
+          "sample_data": {
+            "Category": {
+              "0": "A",
+              "1": "B"
+            },
+            "Value 1": {
+              "0": "100",
+              "1": ""
+            },
+            "Value 2": {
+              "0": "",
+              "1": "200"
+            },
+            "Value 3": {
+              "0": "150",
+              "1": ""
+            },
+            "Notes": {
+              "0": "Complete",
+              "1": "Partial data"
+            }
+          }
+        },
+        {
+          "table_index": 1,
+          "rows": 6,
+          "columns": 5,
+          "confidence": 1.0,
+          "has_data": true,
+          "sample_data": {
+            "Item": {
+              "0": "Item #1",
+              "1": "Item #2"
+            },
+            "Price (€)": {
+              "0": "€12.50",
+              "1": "€8.99"
+            },
+            "Quantity": {
+              "0": "5",
+              "1": "10"
+            },
+            "Total": {
+              "0": "€62.50",
+              "1": "€89.90"
+            },
+            "Status": {
+              "0": "3 Available",
+              "1": "n Low Stock"
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "success_rate": 100.0,
+  "test_timestamp": "2025-08-22 09:15:26",
+  "test_environment": {
+    "python_version": "3.13.5 (tags/v3.13.5:6cb20a2, Jun 11 2025, 16:15:46) [MSC v.1943 64 bit (AMD64)]",
+    "platform": "win32"
+  }
+}
