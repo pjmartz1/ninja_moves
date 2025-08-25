@@ -3,13 +3,12 @@ import { stripe, getPlanByStripePriceId } from '@/lib/stripe'
 import { createClient } from '@supabase/supabase-js'
 import Stripe from 'stripe'
 
-// Initialize Supabase client for server-side operations
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.SUPABASE_SERVICE_KEY!
-)
-
 export async function POST(request: NextRequest) {
+  // Initialize Supabase client for server-side operations (inside function to avoid build-time errors)
+  const supabase = createClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.SUPABASE_SERVICE_KEY!
+  )
   // Check if Stripe is configured
   if (!stripe) {
     return NextResponse.json(

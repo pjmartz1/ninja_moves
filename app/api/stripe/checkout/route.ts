@@ -2,13 +2,12 @@ import { NextRequest, NextResponse } from 'next/server'
 import { stripe, PRICING_PLANS, type PricingPlan } from '@/lib/stripe'
 import { createClient } from '@supabase/supabase-js'
 
-// Initialize Supabase client for server-side operations
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.SUPABASE_SERVICE_KEY!
-)
-
 export async function POST(request: NextRequest) {
+  // Initialize Supabase client for server-side operations (inside function to avoid build-time errors)
+  const supabase = createClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.SUPABASE_SERVICE_KEY!
+  )
   try {
     // Check if Stripe is configured
     if (!stripe) {
