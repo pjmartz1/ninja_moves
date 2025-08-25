@@ -7,10 +7,6 @@ healthcheckTimeout = 100
 restartPolicyType = "ON_FAILURE"
 restartPolicyMaxRetries = 3
 
-[build.buildCommand]
-# Railway will use Dockerfile for build process
-
-[deploy.envVars]
 # Environment variables to set in Railway dashboard:
 # SUPABASE_URL = "your-supabase-url"
 # SUPABASE_SERVICE_KEY = "your-supabase-service-key"  

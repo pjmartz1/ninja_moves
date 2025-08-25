@@ -58,6 +58,7 @@ class PDFTableExtractor:
         self.extraction_methods = []
         if HAS_PDFPLUMBER:
             self.extraction_methods.append(self._extract_with_pdfplumber)
+            self.extraction_methods.append(self._extract_invoice_patterns)  # Add invoice parser
         if HAS_CAMELOT:
             self.extraction_methods.append(self._extract_with_camelot)
         if HAS_TABULA:
@@ -153,8 +154,29 @@ class PDFTableExtractor:
         try:
             with pdfplumber.open(pdf_path) as pdf:
                 for page_num, page in enumerate(pdf.pages):
-                    # Find tables on this page
-                    page_tables = page.find_tables()
+                    # Try multiple table detection strategies for complex documents
+                    page_tables = []
+                    
+                    # Strategy 1: Default detection
+                    try:
+                        default_tables = page.find_tables()
+                        page_tables.extend(default_tables)
+                    except Exception as e:
+                        logger.warning(f"Default table detection failed on page {page_num + 1}: {e}")
+                    
+                    # Strategy 2: More strict detection for complex layouts
+                    if not page_tables:
+                        try:
+                            strict_tables = page.find_tables(table_settings={
+                                "vertical_strategy": "lines_strict",
+                                "horizontal_strategy": "lines_strict",
+                                "snap_tolerance": 2,
+                                "join_tolerance": 2,
+                                "edge_min_length": 10
+                            })
+                            page_tables.extend(strict_tables)
+                        except Exception as e:
+                            logger.warning(f"Strict table detection failed on page {page_num + 1}: {e}")
                     
                     for table_num, table in enumerate(page_tables):
                         try:
@@ -162,20 +184,22 @@ class PDFTableExtractor:
                             table_data = table.extract()
                             
                             if table_data and len(table_data) > 1:  # At least header + 1 row
-                                # Calculate confidence based on table structure
-                                confidence = self._calculate_table_confidence(table_data)
-                                
-                                if confidence > 0.5:  # Only include decent tables
-                                    tables.append({
-                                        "data": table_data,
-                                        "page": page_num + 1,
-                                        "table_num": table_num + 1,
-                                        "confidence": confidence,
-                                        "rows": len(table_data),
-                                        "cols": len(table_data[0]) if table_data[0] else 0,
-                                        "method": "pdfplumber"
-                                    })
-                                    total_confidence += confidence
+                                # Validate table structure for complex documents
+                                if self._is_valid_table_structure(table_data):
+                                    # Calculate confidence based on table structure
+                                    confidence = self._calculate_table_confidence(table_data)
+                                    
+                                    if confidence > 0.3:  # Lower threshold for complex documents
+                                        tables.append({
+                                            "data": table_data,
+                                            "page": page_num + 1,
+                                            "table_num": table_num + 1,
+                                            "confidence": confidence,
+                                            "rows": len(table_data),
+                                            "cols": len(table_data[0]) if table_data[0] else 0,
+                                            "method": "pdfplumber"
+                                        })
+                                        total_confidence += confidence
                                     
                         except Exception as e:
                             logger.warning(f"Error extracting table {table_num} from page {page_num}: {e}")
@@ -305,6 +329,204 @@ class PDFTableExtractor:
             "confidence": avg_confidence,
             "method": "tabula"
         }
+    
+    def _extract_invoice_patterns(self, pdf_path: str) -> Dict[str, Any]:
+        """
+        Extract invoice-like structures using pattern recognition
+        Specifically designed for invoices, receipts, and forms with mixed content
+        """
+        tables = []
+        
+        try:
+            with pdfplumber.open(pdf_path) as pdf:
+                for page_num, page in enumerate(pdf.pages):
+                    # Extract text to identify invoice patterns
+                    text = page.extract_text()
+                    
+                    if self._looks_like_invoice(text):
+                        # Use specialized invoice extraction
+                        invoice_tables = self._extract_invoice_table_patterns(page, text)
+                        
+                        for table in invoice_tables:
+                            if self._is_valid_table_structure(table['data']):
+                                confidence = self._calculate_table_confidence(table['data'])
+                                if confidence > 0.4:  # Lower threshold for invoices
+                                    tables.append({
+                                        "data": table['data'],
+                                        "page": page_num + 1,
+                                        "table_num": len(tables) + 1,
+                                        "confidence": confidence,
+                                        "rows": len(table['data']),
+                                        "cols": len(table['data'][0]) if table['data'] else 0,
+                                        "method": "invoice_parser",
+                                        "type": table['type']
+                                    })
+                        
+        except Exception as e:
+            logger.error(f"Invoice pattern extraction failed: {e}")
+            return {"tables": [], "confidence": 0, "method": "invoice_parser"}
+        
+        avg_confidence = sum(t.get('confidence', 0) for t in tables) / len(tables) if tables else 0
+        
+        return {
+            "tables": tables,
+            "confidence": avg_confidence,
+            "method": "invoice_parser"
+        }
+    
+    def _looks_like_invoice(self, text: str) -> bool:
+        """Check if the text contains invoice-like patterns"""
+        invoice_indicators = [
+            'invoice', 'bill to', 'description', 'qty', 'quantity', 'unit price', 
+            'amount', 'total', 'subtotal', 'due date', 'invoice number', 'tax'
+        ]
+        text_lower = text.lower()
+        matches = sum(1 for indicator in invoice_indicators if indicator in text_lower)
+        return matches >= 3
+    
+    def _extract_invoice_table_patterns(self, page, text: str) -> List[Dict]:
+        """Extract table-like data from invoice layout"""
+        invoice_tables = []
+        
+        try:
+            # Strategy 1: Look for line items (Description, Qty, Price, Amount pattern)
+            line_items = self._extract_line_items(page, text)
+            if line_items:
+                invoice_tables.append({
+                    'data': line_items,
+                    'type': 'line_items'
+                })
+            
+            # Strategy 2: Look for totals section
+            totals = self._extract_totals_section(page, text)
+            if totals:
+                invoice_tables.append({
+                    'data': totals,
+                    'type': 'totals'
+                })
+            
+        except Exception as e:
+            logger.warning(f"Invoice pattern extraction error: {e}")
+        
+        return invoice_tables
+    
+    def _extract_line_items(self, page, text: str) -> List[List]:
+        """Extract line items from invoice using text pattern matching"""
+        lines = text.split('\n')
+        line_items = []
+        
+        # Look for header row
+        header_found = False
+        header_row = None
+        
+        for i, line in enumerate(lines):
+            line_lower = line.lower().strip()
+            
+            # Detect header row
+            if not header_found and ('description' in line_lower and ('qty' in line_lower or 'amount' in line_lower)):
+                header_row = ['Description', 'Qty', 'Unit Price', 'Amount']
+                line_items.append(header_row)
+                header_found = True
+                continue
+            
+            # Extract line items after header
+            if header_found and line.strip():
+                # Look for patterns like: "Description ... 1 $5.00 $5.00"
+                import re
+                
+                # Pattern for money amounts
+                money_pattern = r'\$[\d,]+\.?\d*'
+                money_matches = re.findall(money_pattern, line)
+                
+                # Pattern for quantities (numbers at start of amount sequence)
+                qty_pattern = r'\b(\d+)\b(?=.*\$)'
+                qty_matches = re.findall(qty_pattern, line)
+                
+                if money_matches and len(money_matches) >= 2:
+                    # Try to extract description (everything before the first number/money)
+                    desc_match = re.match(r'([^$\d]*)', line)
+                    description = desc_match.group(1).strip() if desc_match else ''
+                    
+                    # Clean description (remove dates and extra info)
+                    if description and len(description) > 3:
+                        qty = qty_matches[0] if qty_matches else '1'
+                        unit_price = money_matches[0] if len(money_matches) >= 2 else money_matches[0]
+                        amount = money_matches[-1]  # Last money amount is usually total
+                        
+                        line_items.append([description, qty, unit_price, amount])
+        
+        return line_items if len(line_items) > 1 else []  # Need at least header + 1 row
+    
+    def _extract_totals_section(self, page, text: str) -> List[List]:
+        """Extract totals section from invoice"""
+        lines = text.split('\n')
+        totals = []
+        
+        # Look for totals section indicators
+        in_totals = False
+        totals_indicators = ['subtotal', 'tax', 'total', 'amount due', 'balance']
+        
+        for line in lines:
+            line_lower = line.lower().strip()
+            
+            # Check if we're in the totals section
+            if any(indicator in line_lower for indicator in totals_indicators):
+                in_totals = True
+                
+                # Extract label and amount
+                import re
+                money_match = re.search(r'\$[\d,]+\.?\d*', line)
+                if money_match:
+                    amount = money_match.group(0)
+                    label = line[:money_match.start()].strip()
+                    if label:
+                        totals.append([label, amount])
+            elif in_totals and not line.strip():
+                # Empty line might end totals section
+                break
+        
+        # Add header if we have data
+        if totals:
+            totals.insert(0, ['Description', 'Amount'])
+            
+        return totals if len(totals) > 1 else []
+    
+    def _is_valid_table_structure(self, table_data: List[List]) -> bool:
+        """
+        Validate that this is actually a proper table structure, not just a wall of text
+        """
+        if not table_data or len(table_data) < 2:
+            return False
+        
+        # Check if we have consistent column structure
+        col_counts = [len(row) for row in table_data if row]
+        if not col_counts:
+            return False
+        
+        # Must have at least 2 columns for a proper table
+        most_common_cols = max(set(col_counts), key=col_counts.count)
+        if most_common_cols < 2:
+            return False
+        
+        # Check for extremely long cell content (indicates merged/malformed cells)
+        max_cell_length = 0
+        for row in table_data:
+            for cell in row:
+                if cell and isinstance(cell, str):
+                    max_cell_length = max(max_cell_length, len(cell))
+        
+        # If any cell is over 500 characters, it's probably a formatting issue
+        if max_cell_length > 500:
+            logger.warning(f"Table rejected: cell too long ({max_cell_length} chars)")
+            return False
+        
+        # Check column consistency - at least 70% of rows should have the same column count
+        consistency_ratio = col_counts.count(most_common_cols) / len(col_counts)
+        if consistency_ratio < 0.7:
+            logger.warning(f"Table rejected: poor column consistency ({consistency_ratio:.2f})")
+            return False
+        
+        return True
     
     def _calculate_table_confidence(self, table_data: List[List]) -> float:
         """

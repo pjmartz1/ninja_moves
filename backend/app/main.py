@@ -33,7 +33,7 @@ sys.path.insert(1, backend_dir)  # Backend dir second
 from security.validator import SecurePDFValidator
 from security.file_handler import SecureFileHandler
 from security.rate_limiter import rate_limiter
-from core.pdf_processor_railway import PDFTableExtractor
+from core.pdf_processor import PDFTableExtractor
 from auth.supabase_auth import auth_handler, get_current_user_optional
 from core.feedback_service import AccuracyFeedbackService
 
@@ -264,16 +264,16 @@ async def extract_tables(
             profile = await auth_handler.get_user_profile(current_user['id'])
             user_tier = profile['tier'] if profile else 'free'
         
-        extraction_result = await extractor.extract_tables(str(temp_file_path), user_tier)
+        extraction_result = extractor.extract_tables(str(temp_file_path))
         
-        if not extraction_result.tables:
+        if not extraction_result.get('tables', []):
             return {
                 "success": False,
                 "message": "No tables found in the PDF",
                 "tables_found": 0,
-                "errors": extraction_result.errors,
-                "processing_time": extraction_result.processing_time,
-                "extraction_method": extraction_result.extraction_method,
+                "errors": extraction_result.get('errors', []),
+                "processing_time": extraction_result.get('processing_time', 0),
+                "extraction_method": extraction_result.get('method', 'unknown'),
                 "suggestions": [
                     "Ensure the PDF contains visible tables",
                     "Try a different PDF file",
@@ -288,20 +288,33 @@ async def extract_tables(
         # Generate export file (this method needs to be created)
         # For now, we'll just prepare the response with table data
         tables_data = []
-        tables = extraction_result.tables
-        confidence_scores = extraction_result.confidence_scores
+        tables = extraction_result.get('tables', [])
+        confidence_scores = [table.get('confidence', 0) for table in tables]
         
         for i, table in enumerate(tables):
-            # Convert DataFrame to dict for JSON response
+            raw_data = table.get('data', [])
+            
+            # Convert raw table data to object format
+            headers = raw_data[0] if raw_data else []
+            data_rows = raw_data[1:] if len(raw_data) > 1 else []
+            
+            # Convert each row to object with header keys
+            object_data = []
+            for row in data_rows:
+                row_obj = {}
+                for j, header in enumerate(headers):
+                    row_obj[header] = row[j] if j < len(row) else ''
+                object_data.append(row_obj)
+            
             table_dict = {
                 "index": i,
-                "rows": len(table),
-                "columns": len(table.columns),
-                "confidence": confidence_scores[i] if i < len(confidence_scores) else 0.0,
-                "data": table.head(10).to_dict('records'),  # First 10 rows for preview
-                "headers": list(table.columns),
-                "page": 1,  # Default page
-                "method": extraction_result.extraction_method
+                "rows": table.get('rows', 0),
+                "columns": table.get('cols', 0),
+                "confidence": table.get('confidence', 0.0),
+                "data": object_data,  # Converted to object format
+                "headers": headers,
+                "page": table.get('page', 1),
+                "method": extraction_result.get('method', 'unknown')
             }
             tables_data.append(table_dict)
         
@@ -321,11 +334,11 @@ async def extract_tables(
             "tables": tables_data,  # Include processed table data for frontend
             "tables_found": len(tables),
             "confidence_score": sum(confidence_scores) / len(confidence_scores) if confidence_scores else 0,
-            "extraction_method": extraction_result.extraction_method,
+            "extraction_method": extraction_result.get('method', 'unknown'),
             "file_id": file_id,
             "export_format": export_format,
-            "processing_time": extraction_result.processing_time,
-            "ocr_used": "OCR" in extraction_result.extraction_method if extraction_result.extraction_method else False
+            "processing_time": extraction_result.get('processing_time', 0),
+            "ocr_used": "OCR" in extraction_result.get('method', '') if extraction_result.get('method') else False
         }
         
         # Add user tier info if authenticated

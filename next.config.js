@@ -32,7 +32,7 @@ const nextConfig = {
               script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.vercel-insights.com;
               style-src 'self' 'unsafe-inline';
               img-src 'self' data: https:;
-              connect-src 'self' ws: wss:;
+              connect-src 'self' ws: wss: http://localhost:8000;
               frame-ancestors 'none';
               base-uri 'self';
               form-action 'self';

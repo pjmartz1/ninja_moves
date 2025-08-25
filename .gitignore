@@ -92,3 +92,14 @@ pdf_processing_test.json
 .claude/
 context7/
 playwright-mcp/
+
+# Personal/sensitive files (no personal info in repo)
+*.xlsx
+*.csv
+archive/test-files/
+*.json
+COMPETITOR_ANALYSIS_REPORT.md
+FINAL_COMPETITOR_ANALYSIS_SUMMARY.md
+
+# Railway tokens and deployment configs
+RAILWAY_TOKEN

@@ -8,7 +8,7 @@ import logging
 from typing import Optional, Dict, Any
 from fastapi import HTTPException, Depends
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
-import jwt
+from jose import jwt
 from supabase import create_client, Client
 from dotenv import load_dotenv
 

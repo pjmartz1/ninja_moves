@@ -138,7 +138,6 @@ export default function FileUploaderTwoColumn({ onFileUpload, disabled = false }
                     <button
                       type="button"
                       className="group bg-gradient-to-r from-orange-500 to-amber-500 hover:from-orange-600 hover:to-amber-600 text-white font-bold text-lg px-8 py-4 rounded-full shadow-large hover:shadow-glow-orange transition-all duration-300 transform hover:scale-105 disabled:opacity-50"
-                      onClick={(e) => e.stopPropagation()}
                     >
                       <span className="flex items-center space-x-2">
                         <FolderOpen className="h-5 w-5 group-hover:scale-110 transition-transform duration-300" />

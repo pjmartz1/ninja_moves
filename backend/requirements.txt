@@ -21,8 +21,8 @@ openpyxl==3.1.2
 
 # Security and validation
 pydantic==2.5.2
-# NOTE: python-magic-bin replaced with python-magic for Linux compatibility
-python-magic==0.4.27
+# NOTE: python-magic temporarily removed for Railway deployment
+# python-magic==0.4.27
 
 # Development and testing (optional for deployment)
 pytest==7.4.3

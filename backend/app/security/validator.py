@@ -317,10 +317,30 @@ class SecurePDFValidator:
                         js_threats.append(f"JavaScript on page {page_num + 1}")
                         logger.warning(f"JavaScript detected on page {page_num + 1}")
                     
-                    # Check annotations for JavaScript
+                    # Check annotations for actual JavaScript (more selective)
                     if '/Annots' in page_str:
-                        js_threats.append(f"Potentially dangerous annotations on page {page_num + 1}")
-                        logger.warning(f"Annotations detected on page {page_num + 1}")
+                        # Only flag if annotations contain actual JavaScript, not just form fields
+                        annot_has_js = False
+                        if hasattr(page, 'get') and '/Annots' in page:
+                            try:
+                                annots = page['/Annots']
+                                if annots:
+                                    for annot in annots:
+                                        if annot and hasattr(annot, 'get_object'):
+                                            annot_obj = annot.get_object()
+                                            annot_str = str(annot_obj)
+                                            if '/JavaScript' in annot_str or '/JS' in annot_str:
+                                                annot_has_js = True
+                                                break
+                            except Exception:
+                                pass  # If we can't inspect annotations, assume they're safe form fields
+                        
+                        if annot_has_js:
+                            js_threats.append(f"JavaScript in annotations on page {page_num + 1}")
+                            logger.warning(f"JavaScript-enabled annotations detected on page {page_num + 1}")
+                        else:
+                            # Just log that we found benign annotations (form fields, etc.)
+                            logger.info(f"Safe annotations (likely form fields) detected on page {page_num + 1}")
                 
                 except Exception as e:
                     logger.warning(f"Could not scan page {page_num + 1}: {e}")
