@@ -19,6 +19,17 @@ export default function HomePage() {
   const [processingProgress, setProcessingProgress] = useState(0)
   const [extractedData, setExtractedData] = useState<any>(null)
   const [showAuthModal, setShowAuthModal] = useState(false)
+  const [authView, setAuthView] = useState<'sign_in' | 'sign_up'>('sign_in')
+
+  const handleSignInClick = () => {
+    setAuthView('sign_in')
+    setShowAuthModal(true)
+  }
+
+  const handleSignUpClick = () => {
+    setAuthView('sign_up')
+    setShowAuthModal(true)
+  }
 
   const handleFileUpload = async (file: File) => {
     setIsProcessing(true)
@@ -62,7 +73,10 @@ export default function HomePage() {
   return (
     <main className="min-h-screen bg-gradient-to-br from-orange-50 via-white to-amber-50">
       {/* Header - upgraded to shadcn/ui but preserving all text and styling */}
-      <Header />
+      <Header 
+        onSignInClick={handleSignInClick}
+        onSignUpClick={handleSignUpClick}
+      />
 
       {/* Hero Section with Simple Implementation */}
       <SimpleHero 
@@ -128,7 +142,11 @@ export default function HomePage() {
       <Footer />
 
       {/* Modals */}
-      <AuthModal isOpen={showAuthModal} onClose={() => setShowAuthModal(false)} />
+      <AuthModal 
+        isOpen={showAuthModal} 
+        onClose={() => setShowAuthModal(false)}
+        view={authView}
+      />
     </main>
   )
 }
@@ -138,6 +156,17 @@ function OriginalHomePage() {
   const [processingProgress, setProcessingProgress] = useState(0)
   const [extractedData, setExtractedData] = useState<any>(null)
   const [showAuthModal, setShowAuthModal] = useState(false)
+  const [authView, setAuthView] = useState<'sign_in' | 'sign_up'>('sign_in')
+
+  const handleSignInClick = () => {
+    setAuthView('sign_in')
+    setShowAuthModal(true)
+  }
+
+  const handleSignUpClick = () => {
+    setAuthView('sign_up')
+    setShowAuthModal(true)
+  }
 
   const handleFileUpload = async (file: File) => {
     setIsProcessing(true)
@@ -181,7 +210,10 @@ function OriginalHomePage() {
   return (
     <main className="min-h-screen bg-gradient-to-br from-orange-50 via-white to-amber-50">
       {/* Header - upgraded to shadcn/ui but preserving all text and styling */}
-      <Header />
+      <Header 
+        onSignInClick={handleSignInClick}
+        onSignUpClick={handleSignUpClick}
+      />
 
       {/* Hero Section with Simple Implementation */}
       <SimpleHero 
@@ -232,7 +264,11 @@ function OriginalHomePage() {
       />
 
       {/* Modals */}
-      <AuthModal isOpen={showAuthModal} onClose={() => setShowAuthModal(false)} />
+      <AuthModal 
+        isOpen={showAuthModal} 
+        onClose={() => setShowAuthModal(false)}
+        view={authView}
+      />
     </main>
   )
 }

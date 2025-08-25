@@ -10,22 +10,28 @@ import {
   SheetTitle,
   SheetTrigger,
 } from '@/components/ui/sheet'
-
 interface HeaderProps {
   // Optional props for future extensibility
   className?: string
+  onSignInClick?: () => void
+  onSignUpClick?: () => void
 }
 
-export default function Header({ className }: HeaderProps = {}) {
-  const [showAuthModal, setShowAuthModal] = useState(false)
-  
+export default function Header({ className, onSignInClick, onSignUpClick }: HeaderProps = {}) {
   const handleSignInClick = () => {
-    setShowAuthModal(true)
+    if (onSignInClick) {
+      onSignInClick()
+    }
+  }
+  
+  const handleSignUpClick = () => {
+    if (onSignUpClick) {
+      onSignUpClick()
+    }
   }
   return (
     <header className={`border-b border-orange-100 bg-white/80 backdrop-blur-sm ${className || ''}`}>
       <div className="container mx-auto px-4 py-4 flex justify-between items-center">
-        {/* TODO: AuthModal integration will be added when needed */}
         {/* Logo - clickable and matching footer style */}
         <a href="/" className="flex items-center space-x-3 hover:opacity-80 transition-opacity">
           <div className="bg-gradient-to-br from-orange-500 to-amber-600 rounded-xl p-2.5 shadow-lg">
@@ -57,7 +63,7 @@ export default function Header({ className }: HeaderProps = {}) {
             </Button>
             <Button
               variant="orange"
-              onClick={handleSignInClick}
+              onClick={handleSignUpClick}
               className="font-medium"
             >
               Sign Up
@@ -99,7 +105,7 @@ export default function Header({ className }: HeaderProps = {}) {
                   </Button>
                   <Button
                     variant="orange"
-                    onClick={handleSignInClick}
+                    onClick={handleSignUpClick}
                     className="w-full font-medium"
                   >
                     Sign Up
