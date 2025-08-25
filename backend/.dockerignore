@@ -1,0 +1,12 @@
+# Ignore files that might cause deployment issues
+node_modules/
+*.pyc
+__pycache__/
+.git/
+.env
+.env.*
+venv/
+*.log
+tsconfig.tsbuildinfo
+.DS_Store
+Thumbs.db
