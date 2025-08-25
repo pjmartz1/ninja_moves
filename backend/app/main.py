@@ -33,7 +33,7 @@ sys.path.insert(1, backend_dir)  # Backend dir second
 from security.validator import SecurePDFValidator
 from security.file_handler import SecureFileHandler
 from security.rate_limiter import rate_limiter
-from core.pdf_processor import PDFTableExtractor
+from core.pdf_processor_railway import PDFTableExtractor
 from auth.supabase_auth import auth_handler, get_current_user_optional
 from core.feedback_service import AccuracyFeedbackService
 
