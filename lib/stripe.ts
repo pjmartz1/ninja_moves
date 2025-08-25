@@ -1,8 +1,8 @@
-import { loadStripe } from '@stripe/stripe-js'
+import { loadStripe, Stripe as StripeJS } from '@stripe/stripe-js'
 import Stripe from 'stripe'
 
 // Frontend Stripe instance
-let stripePromise: Promise<Stripe | null>
+let stripePromise: Promise<StripeJS | null>
 
 export const getStripe = () => {
   if (!stripePromise) {
