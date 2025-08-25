@@ -31,7 +31,7 @@ function PricingCard({ plan, config, onSelectPlan }: PricingCardProps) {
       
       <CardHeader className="text-center pb-2">
         <CardTitle className="flex items-center justify-center gap-2 text-2xl">
-          {plan === 'ENTERPRISE' && <Crown className="h-6 w-6 text-orange-500" />}
+          {plan === 'BUSINESS' && <Crown className="h-6 w-6 text-orange-500" />}
           {config.name}
         </CardTitle>
         <CardDescription className="text-base">
