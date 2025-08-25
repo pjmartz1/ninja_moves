@@ -11,6 +11,7 @@ from typing import List, Dict, Any, Optional, Tuple
 from pathlib import Path
 import logging
 from security.validator import SecurePDFValidator
+from core.ocr_service import OCRService
 
 logger = logging.getLogger(__name__)
 
@@ -28,16 +29,17 @@ class TableExtractionResult:
 
 
 class PDFTableExtractor:
-    """Main PDF table extraction engine with enhanced optimization"""
+    """Main PDF table extraction engine with enhanced optimization and OCR support"""
     
     def __init__(self):
         self.validator = SecurePDFValidator()
+        self.ocr_service = OCRService()
         # Ordered by reliability and speed
         self.extraction_methods = ['pdfplumber', 'camelot', 'tabula']
         self.max_processing_time = 30  # 30 second timeout
         self.confidence_threshold = 0.6  # Minimum confidence for valid extraction
         
-    async def extract_tables(self, file_path: str) -> TableExtractionResult:
+    async def extract_tables(self, file_path: str, user_tier: str = 'free') -> TableExtractionResult:
         """Extract tables from PDF using optimized multi-method approach"""
         import time
         import asyncio
@@ -102,7 +104,45 @@ class PDFTableExtractor:
                     result = fallback_result
                     result.processing_time = time.time() - start_time
                 else:
-                    result.errors.append("No tables found with any extraction method (including fallbacks)")
+                    # OCR fallback for paid users if PDF might be scanned
+                    if user_tier != 'free':
+                        try:
+                            is_scanned = await self.ocr_service.is_scanned_pdf(file_path)
+                            if is_scanned:
+                                logger.info("Detected scanned PDF, attempting OCR extraction (paid feature)")
+                                ocr_result = await self.ocr_service.extract_tables_from_scanned_pdf(file_path, user_tier)
+                                
+                                if ocr_result.get('tables'):
+                                    # Convert OCR results to our format
+                                    result.tables = []
+                                    result.confidence_scores = []
+                                    
+                                    for ocr_table in ocr_result['tables']:
+                                        df = ocr_table.get('dataframe')
+                                        if df is not None and not df.empty:
+                                            result.tables.append(df)
+                                            result.confidence_scores.append(0.7)  # OCR confidence
+                                    
+                                    if result.tables:
+                                        result.extraction_method = "OCR_" + ocr_result.get('processing_method', 'tesseract')
+                                        result.total_tables = len(result.tables)
+                                        result.processing_time = time.time() - start_time
+                                        logger.info(f"OCR extraction successful: {len(result.tables)} tables found")
+                                        return result
+                        except Exception as e:
+                            logger.warning(f"OCR fallback failed: {str(e)}")
+                            result.errors.append(f"OCR processing failed: {str(e)}")
+                    else:
+                        # Suggest OCR upgrade for free users with scanned PDFs
+                        try:
+                            is_scanned = await self.ocr_service.is_scanned_pdf(file_path)
+                            if is_scanned:
+                                result.errors.append("This appears to be a scanned PDF. OCR processing is available for paid users to extract tables from scanned documents.")
+                        except:
+                            pass
+                    
+                    if not result.tables:
+                        result.errors.append("No tables found with any extraction method (including fallbacks)")
             
             return result
             

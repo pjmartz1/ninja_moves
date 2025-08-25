@@ -1,0 +1,53 @@
+# robots.txt for PDFTablePro
+# AI-powered PDF table extraction tool
+
+User-agent: *
+Allow: /
+
+# Priority pages for crawling
+Allow: /pricing
+Allow: /features
+Allow: /docs
+
+# Block admin and private areas
+Disallow: /api/
+Disallow: /admin/
+Disallow: /dashboard/
+Disallow: /_next/
+Disallow: /temp/
+Disallow: /uploads/
+
+# Sitemap location
+Sitemap: https://pdftablepro.com/sitemap.xml
+
+# Crawl delay for respectful crawling
+Crawl-delay: 1
+
+# Specific rules for major search engines
+User-agent: Googlebot
+Allow: /
+Crawl-delay: 1
+
+User-agent: Bingbot  
+Allow: /
+Crawl-delay: 1
+
+User-agent: Slurp
+Allow: /
+Crawl-delay: 1
+
+# Block AI training bots (optional - can be removed if you want AI training)
+User-agent: GPTBot
+Disallow: /
+
+User-agent: ChatGPT-User
+Disallow: /
+
+User-agent: CCBot
+Disallow: /
+
+User-agent: anthropic-ai
+Disallow: /
+
+User-agent: Claude-Web
+Disallow: /

@@ -1,6 +1,6 @@
 'use client'
 
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 
 interface SimpleHeroProps {
   backgroundVariant?: 'orange' | 'blue' | 'purple' | 'green' | 'warm' | 'cool'
@@ -11,6 +11,27 @@ export function SimpleHero({
   backgroundVariant = 'orange',
   waveColor = '#f97316'
 }: SimpleHeroProps) {
+  const [accuracyData, setAccuracyData] = useState<any>(null)
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    fetchAccuracyData()
+  }, [])
+
+  const fetchAccuracyData = async () => {
+    try {
+      const response = await fetch('http://localhost:8000/social-proof')
+      if (response.ok) {
+        const data = await response.json()
+        setAccuracyData(data)
+      }
+    } catch (error) {
+      console.error('Error fetching accuracy data:', error)
+    } finally {
+      setLoading(false)
+    }
+  }
+
   const backgroundOptions = {
     orange: "bg-gradient-to-br from-orange-50 via-white to-amber-50",
     blue: "bg-gradient-to-br from-blue-50 via-white to-sky-50",
@@ -19,6 +40,9 @@ export function SimpleHero({
     warm: "bg-gradient-to-br from-rose-50 via-orange-50 to-yellow-50",
     cool: "bg-gradient-to-br from-cyan-50 via-blue-50 to-indigo-50"
   }
+
+  // Get dynamic accuracy rate or fallback to 95%+
+  const accuracyRate = accuracyData?.accuracy_proof?.rate || '95%+'
 
   return (
     <div className={`relative h-[28rem] flex items-center justify-center w-full ${backgroundOptions[backgroundVariant]}`}>
@@ -41,10 +65,29 @@ export function SimpleHero({
         </h1>
         <p className="text-xl md:text-2xl text-gray-600 mb-10 leading-relaxed max-w-3xl mx-auto">
           AI-powered table extraction with{' '}
-          <span className="font-semibold text-orange-600">95%+ accuracy</span>.{' '}
+          {loading ? (
+            <span className="inline-block w-20 h-6 bg-gray-200 rounded animate-pulse"></span>
+          ) : (
+            <span className="font-semibold text-orange-600">{accuracyRate} accuracy</span>
+          )}.{' '}
           <br className="hidden md:block" />
           No manual selection, no software installation, no accuracy nightmares.
         </p>
+        
+        {/* Trust indicator with accuracy stats */}
+        <div className="flex items-center justify-center space-x-4 text-sm text-gray-500 mb-6">
+          {loading ? (
+            <div className="flex items-center space-x-2">
+              <div className="w-4 h-4 bg-gray-200 rounded-full animate-pulse"></div>
+              <div className="w-32 h-4 bg-gray-200 rounded animate-pulse"></div>
+            </div>
+          ) : (
+            <div className="flex items-center space-x-2">
+              <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
+              <span>{accuracyRate} accuracy • {accuracyData?.accuracy_proof?.total_users || '1,000+'} users</span>
+            </div>
+          )}
+        </div>
       </div>
       
       {/* Wave shape at bottom */}

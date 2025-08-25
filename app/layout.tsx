@@ -6,59 +6,55 @@ import AuthProvider from '@/components/auth/AuthProvider'
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
-  title: 'PDFTablePro - Extract PDF Tables to Excel in 10 Seconds | AI-Powered Table Extraction',
-  description: 'Extract PDF tables to Excel/CSV with 95%+ accuracy. Free AI-powered tool transforms any PDF table into formatted spreadsheets instantly. No manual selection, no software installation required.',
+  title: 'PDF to Excel Converter - Extract Tables Online Free | PDF2Excel.app',
+  description: 'Convert PDF to Excel instantly. Extract tables from PDF files with 95%+ accuracy. Free online tool - no software installation required. AI-powered table extraction in seconds.',
   keywords: [
-    'pdf table extraction',
-    'extract tables from pdf python',
-    'extract a table from pdf to excel',
-    'extract table from pdf to excel',
-    'extract table data from pdf',
-    'get table from pdf',
+    'pdf to excel',
+    'convert pdf to excel',
     'pdf to excel converter',
+    'convert pdf to excel free',
+    'pdf table to excel',
+    'extract data from pdf to excel',
+    'extract table from pdf to excel',
+    'extract a table from pdf to excel',
+    'pdf table extraction',
+    'convert pdf table to excel online',
+    'extract tables from pdf python',
     'pdf to csv converter',
-    'table extraction tool',
-    'pdf data extraction',
-    'automated table processing',
-    'financial pdf processing',
+    'automated pdf processing',
+    'financial pdf to excel',
     'research table extraction',
-    'business document automation'
+    'business document conversion'
   ],
-  authors: [{ name: 'PDFTablePro Team', url: 'https://pdftablepro.com' }],
-  creator: 'PDFTablePro',
-  publisher: 'PDFTablePro',
+  authors: [{ name: 'PDF2Excel.app Team', url: 'https://pdf2excel.app' }],
+  creator: 'PDF2Excel.app',
+  publisher: 'PDF2Excel.app',
   category: 'Business Software',
   classification: 'PDF Processing Tool',
   openGraph: {
-    title: 'PDFTablePro - Extract PDF Tables to Excel in 10 Seconds',
-    description: 'AI-powered PDF table extraction with 95%+ accuracy. Transform financial statements, research papers, and business documents into Excel/CSV instantly.',
+    title: 'PDF to Excel Converter - Extract Tables Online Free | PDF2Excel.app',
+    description: 'Convert PDF to Excel instantly with 95%+ accuracy. Free online PDF table extraction tool. Transform financial statements, research papers, and business documents to Excel/CSV.',
     type: 'website',
-    url: 'https://pdftablepro.com',
-    siteName: 'PDFTablePro',
+    url: 'https://pdf2excel.app',
+    siteName: 'PDF2Excel.app',
     locale: 'en_US',
     images: [
       {
-        url: 'https://pdftablepro.com/og-image.png',
+        url: 'https://pdf2excel.app/og-image.png',
         width: 1200,
         height: 630,
-        alt: 'PDFTablePro - AI-Powered PDF Table Extraction Tool',
+        alt: 'PDF to Excel Converter - Free Online Tool | PDF2Excel.app',
         type: 'image/png',
       },
     ],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'PDFTablePro - Extract PDF Tables to Excel in 10 Seconds',
-    description: 'AI-powered PDF table extraction with 95%+ accuracy. Free trial available.',
-    images: ['https://pdftablepro.com/twitter-image.png'],
-    creator: '@PDFTablePro',
-    site: '@PDFTablePro',
-  },
-  viewport: {
-    width: 'device-width',
-    initialScale: 1,
-    maximumScale: 5,
-    userScalable: true,
+    title: 'PDF to Excel Converter - Free Online Tool',
+    description: 'Convert PDF to Excel instantly. 95%+ accuracy. Free tool with no software installation required.',
+    images: ['https://pdf2excel.app/twitter-image.png'],
+    creator: '@PDF2Excel.app',
+    site: '@PDF2Excel.app',
   },
   robots: {
     index: true,
@@ -72,7 +68,7 @@ export const metadata: Metadata = {
     },
   },
   alternates: {
-    canonical: 'https://pdftablepro.com',
+    canonical: 'https://pdf2excel.app',
   },
   verification: {
     google: 'your-google-site-verification-code',
@@ -84,13 +80,20 @@ export const metadata: Metadata = {
     'theme-color': '#f97316',
     'apple-mobile-web-app-capable': 'yes',
     'apple-mobile-web-app-status-bar-style': 'default',
-    'apple-mobile-web-app-title': 'PDFTablePro',
-    'application-name': 'PDFTablePro',
+    'apple-mobile-web-app-title': 'PDF2Excel.app',
+    'application-name': 'PDF2Excel.app',
     'mobile-web-app-capable': 'yes',
     'msapplication-navbutton-color': '#f97316',
     'msapplication-starturl': '/',
     'format-detection': 'telephone=no',
   },
+}
+
+export const viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  maximumScale: 5,
+  userScalable: true,
 }
 
 export default function RootLayout({
@@ -103,10 +106,10 @@ export default function RootLayout({
     '@graph': [
       {
         '@type': 'SoftwareApplication',
-        '@id': 'https://pdftablepro.com/#software',
-        name: 'PDFTablePro',
+        '@id': 'https://pdf2excel.app/#software',
+        name: 'PDF2Excel.app',
         description: 'AI-powered PDF table extraction tool that converts PDF tables to Excel/CSV with 95%+ accuracy in under 30 seconds.',
-        url: 'https://pdftablepro.com',
+        url: 'https://pdf2excel.app',
         applicationCategory: 'BusinessApplication',
         operatingSystem: ['Windows', 'macOS', 'Linux', 'iOS', 'Android'],
         softwareVersion: '1.0.0',
@@ -114,13 +117,13 @@ export default function RootLayout({
         dateModified: new Date().toISOString().split('T')[0],
         author: {
           '@type': 'Organization',
-          name: 'PDFTablePro',
-          url: 'https://pdftablepro.com'
+          name: 'PDF2Excel.app',
+          url: 'https://pdf2excel.app'
         },
         publisher: {
           '@type': 'Organization',
-          name: 'PDFTablePro',
-          url: 'https://pdftablepro.com'
+          name: 'PDF2Excel.app',
+          url: 'https://pdf2excel.app'
         },
         offers: {
           '@type': 'Offer',
@@ -139,23 +142,23 @@ export default function RootLayout({
           'No software installation required',
           'Secure file processing'
         ],
-        screenshot: 'https://pdftablepro.com/screenshot.png',
-        downloadUrl: 'https://pdftablepro.com',
-        installUrl: 'https://pdftablepro.com',
+        screenshot: 'https://pdf2excel.app/screenshot.png',
+        downloadUrl: 'https://pdf2excel.app',
+        installUrl: 'https://pdf2excel.app',
         sameAs: [
-          'https://twitter.com/PDFTablePro',
+          'https://twitter.com/PDF2Excel.app',
           'https://linkedin.com/company/pdftablepro'
         ]
       },
       {
         '@type': 'WebApplication', 
-        '@id': 'https://pdftablepro.com/#webapp',
-        name: 'PDFTablePro Web App',
+        '@id': 'https://pdf2excel.app/#webapp',
+        name: 'PDF2Excel.app Web App',
         description: 'Online PDF table extraction tool - extract tables from PDF files to Excel and CSV formats instantly.',
-        url: 'https://pdftablepro.com',
+        url: 'https://pdf2excel.app',
         applicationCategory: 'BusinessApplication',
         browserRequirements: 'Requires JavaScript enabled',
-        permissions: 'https://pdftablepro.com/privacy',
+        permissions: 'https://pdf2excel.app/privacy',
         storageRequirements: '50MB',
         memoryRequirements: '1GB',
         processorRequirements: 'Any modern processor',
@@ -170,14 +173,14 @@ export default function RootLayout({
       },
       {
         '@type': 'Organization',
-        '@id': 'https://pdftablepro.com/#organization', 
-        name: 'PDFTablePro',
-        url: 'https://pdftablepro.com',
-        logo: 'https://pdftablepro.com/logo.png',
+        '@id': 'https://pdf2excel.app/#organization', 
+        name: 'PDF2Excel.app',
+        url: 'https://pdf2excel.app',
+        logo: 'https://pdf2excel.app/logo.png',
         description: 'Leading provider of AI-powered PDF table extraction solutions for businesses, researchers, and finance professionals.',
         foundingDate: '2025',
         sameAs: [
-          'https://twitter.com/PDFTablePro',
+          'https://twitter.com/PDF2Excel.app',
           'https://linkedin.com/company/pdftablepro'
         ],
         contactPoint: {
@@ -189,13 +192,13 @@ export default function RootLayout({
       },
       {
         '@type': 'Service',
-        '@id': 'https://pdftablepro.com/#service',
+        '@id': 'https://pdf2excel.app/#service',
         name: 'PDF Table Extraction Service',
         description: 'Professional PDF table extraction service for converting PDF documents to Excel and CSV formats with AI-powered accuracy.',
         provider: {
           '@type': 'Organization',
-          name: 'PDFTablePro',
-          url: 'https://pdftablepro.com'
+          name: 'PDF2Excel.app',
+          url: 'https://pdf2excel.app'
         },
         serviceType: 'PDF Processing',
         hasOfferCatalog: {
@@ -228,17 +231,17 @@ export default function RootLayout({
       },
       {
         '@type': 'WebSite',
-        '@id': 'https://pdftablepro.com/#website',
-        url: 'https://pdftablepro.com',
-        name: 'PDFTablePro',
+        '@id': 'https://pdf2excel.app/#website',
+        url: 'https://pdf2excel.app',
+        name: 'PDF2Excel.app',
         description: 'Extract PDF tables to Excel/CSV with AI-powered precision',
         inLanguage: 'en-US',
         isPartOf: {
-          '@id': 'https://pdftablepro.com/#organization'
+          '@id': 'https://pdf2excel.app/#organization'
         },
         potentialAction: {
           '@type': 'SearchAction',
-          target: 'https://pdftablepro.com/search?q={search_term_string}',
+          target: 'https://pdf2excel.app/search?q={search_term_string}',
           'query-input': 'required name=search_term_string'
         }
       }
@@ -252,7 +255,7 @@ export default function RootLayout({
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
-        <link rel="canonical" href="https://pdftablepro.com" />
+        <link rel="canonical" href="https://pdf2excel.app" />
         <link rel="icon" href="/favicon.ico" sizes="any" />
         <link rel="icon" href="/icon.svg" type="image/svg+xml" />
         <link rel="apple-touch-icon" href="/apple-touch-icon.png" />

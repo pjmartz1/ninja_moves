@@ -10,6 +10,8 @@ import Header from '@/components/layout/Header'
 import Footer from '@/components/layout/Footer'
 import { SimpleHero } from '@/components/ui/simple-hero'
 import { SimpleFeatures } from '@/components/ui/simple-features'
+import AccuracyFeedbackWidget from '@/components/feedback/AccuracyFeedbackWidget'
+import AccuracyStats from '@/components/social-proof/AccuracyStats'
 import { Zap, Target, ShieldCheck } from 'lucide-react'
 
 export default function HomePage() {
@@ -68,6 +70,7 @@ export default function HomePage() {
         waveColor="#f97316"
       />
 
+
       {/* Upload Section */}
       <section className="container mx-auto px-4 py-16">
         <div className="max-w-6xl mx-auto">
@@ -82,8 +85,19 @@ export default function HomePage() {
           )}
           
           {extractedData && (
-            <div className="bg-white rounded-2xl p-8 shadow-lg border border-orange-100">
-              <DownloadButtons tables={extractedData.tables || []} processingTime={extractedData.processing_time || 0} />
+            <div className="space-y-6">
+              <div className="bg-white rounded-2xl p-8 shadow-lg border border-orange-100">
+                <DownloadButtons tables={extractedData.tables || []} processingTime={extractedData.processing_time || 0} />
+              </div>
+              
+              {/* Accuracy Feedback Widget */}
+              <AccuracyFeedbackWidget
+                fileId={extractedData.file_id || 'unknown'}
+                extractionMethod={extractedData.extraction_method || 'unknown'}
+                onFeedbackSubmitted={(feedback) => {
+                  console.log('Feedback submitted:', feedback)
+                }}
+              />
             </div>
           )}
         </div>
@@ -96,11 +110,6 @@ export default function HomePage() {
             icon: Zap,
             title: "Lightning Fast",
             description: "Extract tables in under 30 seconds with our optimized AI engine powered by advanced algorithms"
-          },
-          {
-            icon: Target,
-            title: "95%+ Accuracy", 
-            description: "Advanced AI algorithms ensure precise table structure recognition across all document types"
           },
           {
             icon: ShieldCheck,

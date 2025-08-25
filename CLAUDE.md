@@ -8,7 +8,56 @@
 - Keep responses concise and focused on the task at hand
 - Batch tool calls together for optimal performance
 
+# 📋 PDFTablePro - Feature Improvements Roadmap
 
+## Week 1 – MVP++ (Accuracy & Trust)
+- [ ] **OCR for Scanned PDFs (Paid Only)**
+  - Integrate Tesseract or cloud OCR API
+  - Restrict to paid plans only
+  - Track per-page usage
+- [ ] **Accuracy Feedback Widget**
+  - After download, show Yes/No prompt: *"Was this table extracted correctly?"*
+  - Store only aggregate scores
+- [ ] **Publish Accuracy Benchmarks**
+  - Use existing `pdf_accuracy_test_results.json`
+  - Display accuracy rates and sample tables on a public page
+- [ ] **Confidence Score in Preview**
+  - Show % accuracy/confidence overlay when previewing table
+  - Display before download
+
+---
+
+## Week 2 – Convenience & UX
+- [ ] **Google Drive Import**
+  - OAuth integration for Drive file selection
+  - Store files only short-term
+- [ ] **Batch Processing (Paid)**
+  - Allow multiple uploads at once for paid tiers
+  - Free tier remains single-file only
+- [ ] **Usage Dashboard**
+  - Show users current page usage/month
+  - Add clear upgrade CTAs when nearing limit
+
+---
+
+## Week 3 – Developer & Business Features
+- [ ] **API Access**
+  - Expose API endpoints for paid users
+  - Implement API key management + usage limits
+- [ ] **File Type Detection**
+  - Auto-detect numbers, currency, and dates
+  - Apply correct formatting in Excel/CSV outputs
+- [ ] **Prepaid Page Bundles**
+  - Offer extra credits (e.g., $2 = 200 pages)
+  - Avoid postpaid surprise charges
+
+---
+
+## Deferred / Nice-to-Have
+- [ ] **Multi-language OCR**
+  - Add support after English OCR is stable and cost-effective
+- [ ] **Cross-platform Apps**
+  - Consider desktop/mobile wrappers after core product traction
 
 ## 📋 Current Build Progress Log
 

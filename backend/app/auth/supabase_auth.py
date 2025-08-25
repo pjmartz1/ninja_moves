@@ -10,6 +10,10 @@ from fastapi import HTTPException, Depends
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 import jwt
 from supabase import create_client, Client
+from dotenv import load_dotenv
+
+# Load environment variables
+load_dotenv(os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(__file__))), '.env'))
 
 logger = logging.getLogger(__name__)
 
@@ -21,7 +25,7 @@ def get_supabase_client() -> Client:
     
     if not supabase_url or not supabase_service_key:
         logger.error("Supabase environment variables not configured")
-        raise HTTPException(status_code=500, detail="Auth service not configured")
+        raise HTTPException(status_code=503, detail="Auth service not configured")
     
     return create_client(supabase_url, supabase_service_key)
 

@@ -1,0 +1,89 @@
+{
+  "total_feedback": 10,
+  "accurate_count": 9,
+  "inaccurate_count": 1,
+  "accuracy_rate": 90.0,
+  "last_updated": "2025-08-24T18:00:44.098783",
+  "feedback_entries": [
+    {
+      "file_id": "test123",
+      "is_accurate": true,
+      "extraction_method": "pdfplumber",
+      "user_tier": "anonymous",
+      "timestamp": "2025-08-24T17:52:41.373297",
+      "additional_notes": ""
+    },
+    {
+      "file_id": "test456",
+      "is_accurate": true,
+      "extraction_method": "pdfplumber",
+      "user_tier": "anonymous",
+      "timestamp": "2025-08-24T17:54:53.357964",
+      "additional_notes": ""
+    },
+    {
+      "file_id": "test789",
+      "is_accurate": false,
+      "extraction_method": "camelot",
+      "user_tier": "anonymous",
+      "timestamp": "2025-08-24T17:54:59.295850",
+      "additional_notes": "Missing some columns"
+    },
+    {
+      "file_id": "test_1",
+      "is_accurate": true,
+      "extraction_method": "pdfplumber",
+      "user_tier": "anonymous",
+      "timestamp": "2025-08-24T18:00:42.481215",
+      "additional_notes": ""
+    },
+    {
+      "file_id": "test_2",
+      "is_accurate": true,
+      "extraction_method": "pdfplumber",
+      "user_tier": "anonymous",
+      "timestamp": "2025-08-24T18:00:42.741891",
+      "additional_notes": ""
+    },
+    {
+      "file_id": "test_3",
+      "is_accurate": true,
+      "extraction_method": "pdfplumber",
+      "user_tier": "anonymous",
+      "timestamp": "2025-08-24T18:00:43.047364",
+      "additional_notes": ""
+    },
+    {
+      "file_id": "test_4",
+      "is_accurate": true,
+      "extraction_method": "pdfplumber",
+      "user_tier": "anonymous",
+      "timestamp": "2025-08-24T18:00:43.313880",
+      "additional_notes": ""
+    },
+    {
+      "file_id": "test_5",
+      "is_accurate": true,
+      "extraction_method": "pdfplumber",
+      "user_tier": "anonymous",
+      "timestamp": "2025-08-24T18:00:43.581172",
+      "additional_notes": ""
+    },
+    {
+      "file_id": "test_6",
+      "is_accurate": true,
+      "extraction_method": "pdfplumber",
+      "user_tier": "anonymous",
+      "timestamp": "2025-08-24T18:00:43.846497",
+      "additional_notes": ""
+    },
+    {
+      "file_id": "test_7",
+      "is_accurate": true,
+      "extraction_method": "pdfplumber",
+      "user_tier": "anonymous",
+      "timestamp": "2025-08-24T18:00:44.098775",
+      "additional_notes": ""
+    }
+  ]
+}

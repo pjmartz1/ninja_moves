@@ -5,7 +5,7 @@ import Link from 'next/link'
 import { Card, CardContent } from '@/components/ui/card'
 import { Separator } from '@/components/ui/separator'
 import { Button } from '@/components/ui/button'
-import { FileText, Zap, Shield, Heart, Mail, Github, Twitter, Linkedin } from 'lucide-react'
+import { Heart, Mail, Github, Twitter, Linkedin, FileText } from 'lucide-react'
 
 export default function Footer() {
   const currentYear = new Date().getFullYear()
@@ -20,11 +20,15 @@ export default function Footer() {
             
             {/* Brand Section */}
             <div className="lg:col-span-2">
-              <div className="flex items-center space-x-3 mb-6">
-                <div className="bg-gradient-to-br from-orange-500 to-amber-600 rounded-xl p-2.5 shadow-lg">
-                  <FileText className="h-8 w-8 text-white" />
-                </div>
-                <h3 className="text-2xl font-black text-gray-900">PDFTablePro</h3>
+              <div className="mb-6">
+                <a href="/" className="flex items-center space-x-3 hover:opacity-80 transition-opacity">
+                  <div className="bg-gradient-to-br from-orange-500 to-amber-600 rounded-xl p-2.5 shadow-lg">
+                    <FileText className="h-8 w-8 text-white" />
+                  </div>
+                  <h1 className="text-2xl font-black text-gray-900">
+                    PDF2Excel.app
+                  </h1>
+                </a>
               </div>
               <p className="text-gray-600 text-base leading-relaxed mb-6 max-w-md">
                 Extract PDF tables to Excel in seconds with our AI-powered platform. 
@@ -80,8 +84,8 @@ export default function Footer() {
                   </Link>
                 </li>
                 <li>
-                  <Link href="/documentation" className="text-gray-600 hover:text-orange-600 transition-colors duration-200 text-sm">
-                    Documentation
+                  <Link href="/help" className="text-gray-600 hover:text-orange-600 transition-colors duration-200 text-sm">
+                    Help Center
                   </Link>
                 </li>
                 <li>
@@ -106,7 +110,7 @@ export default function Footer() {
             {/* Legal Links */}
             <div className="flex flex-col md:flex-row items-center space-y-2 md:space-y-0 md:space-x-6 text-sm text-gray-600">
               <div className="flex items-center space-x-1">
-                <span>© {currentYear} PDFTablePro.</span>
+                <span>© {currentYear} PDF2Excel.app.</span>
                 <span className="hidden md:inline">Made with</span>
                 <Heart className="h-4 w-4 text-red-500 fill-current hidden md:inline" />
                 <span className="hidden md:inline">for data professionals</span>
