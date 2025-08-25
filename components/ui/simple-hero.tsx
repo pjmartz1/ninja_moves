@@ -1,6 +1,7 @@
 'use client'
 
 import React, { useState, useEffect } from 'react'
+import { getApiUrl } from '@/lib/config'
 
 interface SimpleHeroProps {
   backgroundVariant?: 'orange' | 'blue' | 'purple' | 'green' | 'warm' | 'cool'
@@ -20,7 +21,7 @@ export function SimpleHero({
 
   const fetchAccuracyData = async () => {
     try {
-      const response = await fetch('http://localhost:8000/social-proof')
+      const response = await fetch(getApiUrl('/social-proof'))
       if (response.ok) {
         const data = await response.json()
         setAccuracyData(data)

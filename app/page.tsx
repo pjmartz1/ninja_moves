@@ -12,6 +12,7 @@ import { SimpleHero } from '@/components/ui/simple-hero'
 import { SimpleFeatures } from '@/components/ui/simple-features'
 import AccuracyFeedbackWidget from '@/components/feedback/AccuracyFeedbackWidget'
 import AccuracyStats from '@/components/social-proof/AccuracyStats'
+import { getApiUrl, apiRequest } from '@/lib/config'
 import { Zap, Target, ShieldCheck } from 'lucide-react'
 
 export default function HomePage() {
@@ -50,7 +51,7 @@ export default function HomePage() {
       const formData = new FormData()
       formData.append('file', file)
 
-      const response = await fetch('http://localhost:8000/extract', {
+      const response = await fetch(getApiUrl('/extract'), {
         method: 'POST',
         body: formData,
       })
@@ -187,7 +188,7 @@ function OriginalHomePage() {
       const formData = new FormData()
       formData.append('file', file)
 
-      const response = await fetch('http://localhost:8000/extract', {
+      const response = await fetch(getApiUrl('/extract'), {
         method: 'POST',
         body: formData,
       })

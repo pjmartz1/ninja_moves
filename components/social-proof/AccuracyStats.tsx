@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from 'react'
 import { TrendingUp, Users, Award, Target } from 'lucide-react'
 import { motion } from 'framer-motion'
+import { getApiUrl } from '@/lib/config'
 
 interface AccuracyStatsProps {
   className?: string
@@ -34,7 +35,7 @@ export default function AccuracyStats({
 
   const fetchAccuracyStats = async () => {
     try {
-      const response = await fetch('http://localhost:8000/social-proof')
+      const response = await fetch(getApiUrl('/social-proof'))
       if (response.ok) {
         const result = await response.json()
         setData(result)

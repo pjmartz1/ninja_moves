@@ -3,6 +3,7 @@
 import React, { useState } from 'react'
 import { CheckCircle2, XCircle, MessageSquare, TrendingUp, Users } from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'
+import { getApiUrl } from '@/lib/config'
 
 interface AccuracyFeedbackWidgetProps {
   fileId: string
@@ -46,7 +47,7 @@ export default function AccuracyFeedbackWidget({
     setIsSubmitting(true)
 
     try {
-      const response = await fetch(`http://localhost:8000/feedback/accuracy?file_id=${fileId}&is_accurate=${isAccurate}&extraction_method=${extractionMethod}&additional_notes=${encodeURIComponent(notes)}`, {
+      const response = await fetch(`${getApiUrl('/feedback/accuracy')}?file_id=${fileId}&is_accurate=${isAccurate}&extraction_method=${extractionMethod}&additional_notes=${encodeURIComponent(notes)}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
