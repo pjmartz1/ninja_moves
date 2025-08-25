@@ -11,4 +11,4 @@ cmds = [
 cmds = []
 
 [start]
-cmd = 'python start.py'
+cmd = 'uvicorn app.main:app --host 0.0.0.0 --port $PORT'
