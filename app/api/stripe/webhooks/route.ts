@@ -10,6 +10,14 @@ const supabase = createClient(
 )
 
 export async function POST(request: NextRequest) {
+  // Check if Stripe is configured
+  if (!stripe) {
+    return NextResponse.json(
+      { error: 'Stripe webhook processing not available' },
+      { status: 503 }
+    )
+  }
+
   const body = await request.text()
   const signature = request.headers.get('stripe-signature')
 
