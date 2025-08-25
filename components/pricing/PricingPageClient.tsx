@@ -12,7 +12,7 @@ export default function PricingPageClient() {
   return (
     <main className="min-h-screen bg-white">
       {/* Header with consistent navigation */}
-      <Header onSignInClick={() => setShowAuthModal(true)} />
+      <Header />
       
       {/* Pricing Section */}
       <PricingSection />
