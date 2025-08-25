@@ -164,7 +164,7 @@ export default function FileUploaderTwoColumn({ onFileUpload, disabled = false }
             <Card className="bg-white/80 backdrop-blur-sm border border-orange-100 hover:shadow-md transition-all duration-300 hover:border-orange-200">
               <CardContent className="p-4">
                 <div className="flex items-center space-x-3">
-                  <div className="bg-gradient-to-br from-orange-500 to-red-500 rounded-lg p-2 shadow-sm">
+                  <div className="bg-orange-500 rounded-lg p-2 shadow-sm">
                     <FileText className="h-5 w-5 text-white" />
                   </div>
                   <div>
@@ -178,7 +178,7 @@ export default function FileUploaderTwoColumn({ onFileUpload, disabled = false }
             <Card className="bg-white/80 backdrop-blur-sm border border-orange-100 hover:shadow-md transition-all duration-300 hover:border-orange-200">
               <CardContent className="p-4">
                 <div className="flex items-center space-x-3">
-                  <div className="bg-gradient-to-br from-blue-500 to-cyan-500 rounded-lg p-2 shadow-sm">
+                  <div className="bg-orange-500 rounded-lg p-2 shadow-sm">
                     <HardDrive className="h-5 w-5 text-white" />
                   </div>
                   <div>
@@ -192,7 +192,7 @@ export default function FileUploaderTwoColumn({ onFileUpload, disabled = false }
             <Card className="bg-white/80 backdrop-blur-sm border border-orange-100 hover:shadow-md transition-all duration-300 hover:border-orange-200">
               <CardContent className="p-4">
                 <div className="flex items-center space-x-3">
-                  <div className="bg-gradient-to-br from-purple-500 to-pink-500 rounded-lg p-2 shadow-sm">
+                  <div className="bg-orange-500 rounded-lg p-2 shadow-sm">
                     <FileCheck className="h-5 w-5 text-white" />
                   </div>
                   <div>
@@ -206,7 +206,7 @@ export default function FileUploaderTwoColumn({ onFileUpload, disabled = false }
             <Card className="bg-white/80 backdrop-blur-sm border border-orange-100 hover:shadow-md transition-all duration-300 hover:border-orange-200">
               <CardContent className="p-4">
                 <div className="flex items-center space-x-3">
-                  <div className="bg-gradient-to-br from-green-500 to-teal-500 rounded-lg p-2 shadow-sm">
+                  <div className="bg-orange-500 rounded-lg p-2 shadow-sm">
                     <Type className="h-5 w-5 text-white" />
                   </div>
                   <div>
@@ -218,25 +218,25 @@ export default function FileUploaderTwoColumn({ onFileUpload, disabled = false }
             </Card>
 
             {/* Pro Tips */}
-            <Card className="bg-gradient-to-r from-yellow-50 to-amber-50 border border-yellow-200">
+            <Card className="bg-gradient-to-r from-orange-50 to-amber-50 border border-orange-200">
               <CardContent className="p-4">
                 <div className="flex items-start space-x-3">
-                  <div className="bg-gradient-to-br from-yellow-500 to-amber-500 rounded-lg p-2 shadow-sm">
+                  <div className="bg-orange-500 rounded-lg p-2 shadow-sm">
                     <Lightbulb className="h-5 w-5 text-white" />
                   </div>
                   <div>
                     <CardTitle className="font-bold text-gray-900 text-base mb-2">Pro Tips</CardTitle>
                     <ul className="space-y-1 text-sm text-gray-700">
                       <li className="flex items-center space-x-2">
-                        <span className="w-1 h-1 bg-yellow-500 rounded-full"></span>
+                        <span className="w-1 h-1 bg-orange-500 rounded-full"></span>
                         <span>Use text-searchable PDFs</span>
                       </li>
                       <li className="flex items-center space-x-2">
-                        <span className="w-1 h-1 bg-yellow-500 rounded-full"></span>
+                        <span className="w-1 h-1 bg-orange-500 rounded-full"></span>
                         <span>Clear borders extract better</span>
                       </li>
                       <li className="flex items-center space-x-2">
-                        <span className="w-1 h-1 bg-yellow-500 rounded-full"></span>
+                        <span className="w-1 h-1 bg-orange-500 rounded-full"></span>
                         <span>Avoid rotated tables</span>
                       </li>
                     </ul>

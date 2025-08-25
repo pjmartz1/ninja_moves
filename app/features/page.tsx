@@ -34,13 +34,9 @@ export const metadata: Metadata = {
 }
 
 export default function FeaturesPage() {
-  const handleSignIn = () => {
-    // Handle sign in
-  }
-
   return (
     <div className="min-h-screen bg-white">
-      <Header onSignInClick={handleSignIn} />
+      <Header />
       
       <main>
         {/* Hero Section */}

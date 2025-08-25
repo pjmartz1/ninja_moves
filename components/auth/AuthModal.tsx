@@ -75,7 +75,7 @@ export default function AuthModal({ isOpen, onClose, view = 'sign_in' }: AuthMod
                 message: 'text-sm text-red-600 mt-2 font-medium',
               },
             }}
-            providers={['google', 'github']}
+            providers={['google']}
             redirectTo={`${window.location.origin}/auth/callback`}
             showLinks={true}
             magicLink={true}

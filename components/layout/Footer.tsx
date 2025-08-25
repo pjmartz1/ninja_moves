@@ -56,16 +56,6 @@ export default function Footer() {
                     Pricing
                   </Link>
                 </li>
-                <li>
-                  <Link href="/api" className="text-gray-600 hover:text-orange-600 transition-colors duration-200 text-sm">
-                    API Documentation
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/integrations" className="text-gray-600 hover:text-orange-600 transition-colors duration-200 text-sm">
-                    Integrations
-                  </Link>
-                </li>
               </ul>
             </div>
             
@@ -81,21 +71,6 @@ export default function Footer() {
                 <li>
                   <Link href="/contact" className="text-gray-600 hover:text-orange-600 transition-colors duration-200 text-sm">
                     Contact Us
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/help" className="text-gray-600 hover:text-orange-600 transition-colors duration-200 text-sm">
-                    Help Center
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/status" className="text-gray-600 hover:text-orange-600 transition-colors duration-200 text-sm">
-                    System Status
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/changelog" className="text-gray-600 hover:text-orange-600 transition-colors duration-200 text-sm">
-                    Changelog
                   </Link>
                 </li>
               </ul>

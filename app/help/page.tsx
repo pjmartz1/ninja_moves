@@ -31,9 +31,6 @@ export const metadata: Metadata = {
 }
 
 export default function HelpPage() {
-  const handleSignIn = () => {
-    // Handle sign in
-  }
 
   const faqs = [
     {
@@ -133,7 +130,7 @@ export default function HelpPage() {
 
   return (
     <div className="min-h-screen bg-white">
-      <Header onSignInClick={handleSignIn} />
+      <Header />
       
       <main>
         {/* Hero Section */}

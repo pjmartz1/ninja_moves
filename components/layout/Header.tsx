@@ -12,13 +12,20 @@ import {
 } from '@/components/ui/sheet'
 
 interface HeaderProps {
-  onSignInClick: () => void
+  // Optional props for future extensibility
+  className?: string
 }
 
-export default function Header({ onSignInClick }: HeaderProps) {
+export default function Header({ className }: HeaderProps = {}) {
+  const [showAuthModal, setShowAuthModal] = useState(false)
+  
+  const handleSignInClick = () => {
+    setShowAuthModal(true)
+  }
   return (
-    <header className="border-b border-orange-100 bg-white/80 backdrop-blur-sm">
+    <header className={`border-b border-orange-100 bg-white/80 backdrop-blur-sm ${className || ''}`}>
       <div className="container mx-auto px-4 py-4 flex justify-between items-center">
+        {/* TODO: AuthModal integration will be added when needed */}
         {/* Logo - clickable and matching footer style */}
         <a href="/" className="flex items-center space-x-3 hover:opacity-80 transition-opacity">
           <div className="bg-gradient-to-br from-orange-500 to-amber-600 rounded-xl p-2.5 shadow-lg">
@@ -43,14 +50,14 @@ export default function Header({ onSignInClick }: HeaderProps) {
           <div className="flex items-center space-x-3 ml-4">
             <Button
               variant="orangeOutline"
-              onClick={onSignInClick}
+              onClick={handleSignInClick}
               className="font-medium"
             >
               Login
             </Button>
             <Button
               variant="orange"
-              onClick={onSignInClick}
+              onClick={handleSignInClick}
               className="font-medium"
             >
               Sign Up
@@ -85,14 +92,14 @@ export default function Header({ onSignInClick }: HeaderProps) {
                 <div className="pt-4 border-t border-gray-200 space-y-3">
                   <Button
                     variant="orangeOutline"
-                    onClick={onSignInClick}
+                    onClick={handleSignInClick}
                     className="w-full font-medium"
                   >
                     Login
                   </Button>
                   <Button
                     variant="orange"
-                    onClick={onSignInClick}
+                    onClick={handleSignInClick}
                     className="w-full font-medium"
                   >
                     Sign Up

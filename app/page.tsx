@@ -62,7 +62,7 @@ export default function HomePage() {
   return (
     <main className="min-h-screen bg-gradient-to-br from-orange-50 via-white to-amber-50">
       {/* Header - upgraded to shadcn/ui but preserving all text and styling */}
-      <Header onSignInClick={() => setShowAuthModal(true)} />
+      <Header />
 
       {/* Hero Section with Simple Implementation */}
       <SimpleHero 
@@ -115,6 +115,11 @@ export default function HomePage() {
             icon: ShieldCheck,
             title: "Enterprise Secure",
             description: "Files auto-deleted after processing with enterprise-grade security and privacy protection"
+          },
+          {
+            icon: Target,
+            title: "95%+ Accuracy",
+            description: "Advanced AI algorithms ensure precise table structure recognition across all document types"
           }
         ]}
       />
@@ -176,7 +181,7 @@ function OriginalHomePage() {
   return (
     <main className="min-h-screen bg-gradient-to-br from-orange-50 via-white to-amber-50">
       {/* Header - upgraded to shadcn/ui but preserving all text and styling */}
-      <Header onSignInClick={() => setShowAuthModal(true)} />
+      <Header />
 
       {/* Hero Section with Simple Implementation */}
       <SimpleHero 
