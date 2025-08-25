@@ -59,7 +59,7 @@ export default function OldDesignPage() {
   return (
     <main className="min-h-screen bg-gradient-to-br from-orange-50 via-white to-amber-50">
       {/* Header - upgraded to shadcn/ui but preserving all text and styling */}
-      <Header onSignInClick={() => setShowAuthModal(true)} />
+      <Header />
 
       {/* Hero Section with Simple Implementation */}
       <SimpleHero 
