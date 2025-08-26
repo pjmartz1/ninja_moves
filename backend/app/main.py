@@ -358,11 +358,29 @@ async def extract_tables(
         # Re-raise HTTP exceptions (they're already properly formatted)
         raise
     except Exception as e:
-        # Log error and return generic message (P0 Security)
-        logger.error(f"Error processing PDF {file.filename}: {e}", exc_info=True)
+        # Log error and return helpful message (improved error handling)
+        error_msg = str(e)
+        logger.error(f"Error processing PDF {file.filename}: {error_msg}", exc_info=True)
+        
+        # Provide specific error messages for common issues
+        if "JavaScript detected in PDF" in error_msg:
+            detail = "PDF contains potentially dangerous content and cannot be processed for security reasons"
+        elif "Encrypted PDFs are not supported" in error_msg:
+            detail = "Encrypted PDFs cannot be processed. Please provide an unencrypted PDF file"
+        elif "File too large" in error_msg:
+            detail = "File exceeds 10MB size limit. Please use a smaller PDF file"
+        elif "Invalid PDF file" in error_msg:
+            detail = "Invalid PDF file format. Please ensure the file is a valid PDF"
+        elif "Corrupted or invalid PDF" in error_msg:
+            detail = "The PDF file appears to be corrupted. Please try a different file"
+        elif "No tables found" in error_msg:
+            detail = "No tables were detected in this PDF. Please ensure the PDF contains visible tables"
+        else:
+            detail = "Failed to process PDF file. Please try a different file or contact support"
+        
         raise HTTPException(
             status_code=422,
-            detail="Failed to process PDF file"
+            detail=detail
         )
     finally:
         # P0 Security: Always cleanup files

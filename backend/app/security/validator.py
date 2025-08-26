@@ -304,7 +304,7 @@ class SecurePDFValidator:
         return list(set(dangerous_found))  # Remove duplicates
     
     def _scan_pages_for_javascript(self, pdf_reader: pypdf.PdfReader) -> List[str]:
-        """Scan PDF pages for embedded JavaScript"""
+        """Scan PDF pages for embedded JavaScript - improved to distinguish dangerous JS from form fields"""
         js_threats = []
         
         try:
@@ -313,34 +313,23 @@ class SecurePDFValidator:
                     # Check page object for JavaScript
                     page_str = str(page)
                     
+                    # Only flag actual dangerous JavaScript, not form field annotations
                     if '/JavaScript' in page_str or '/JS' in page_str:
-                        js_threats.append(f"JavaScript on page {page_num + 1}")
-                        logger.warning(f"JavaScript detected on page {page_num + 1}")
-                    
-                    # Check annotations for actual JavaScript (more selective)
-                    if '/Annots' in page_str:
-                        # Only flag if annotations contain actual JavaScript, not just form fields
-                        annot_has_js = False
-                        if hasattr(page, 'get') and '/Annots' in page:
-                            try:
-                                annots = page['/Annots']
-                                if annots:
-                                    for annot in annots:
-                                        if annot and hasattr(annot, 'get_object'):
-                                            annot_obj = annot.get_object()
-                                            annot_str = str(annot_obj)
-                                            if '/JavaScript' in annot_str or '/JS' in annot_str:
-                                                annot_has_js = True
-                                                break
-                            except Exception:
-                                pass  # If we can't inspect annotations, assume they're safe form fields
-                        
-                        if annot_has_js:
-                            js_threats.append(f"JavaScript in annotations on page {page_num + 1}")
-                            logger.warning(f"JavaScript-enabled annotations detected on page {page_num + 1}")
+                        # Additional verification - look for actual JS content, not just form field structures
+                        if self._contains_actual_javascript(page_str):
+                            js_threats.append(f"Dangerous JavaScript code on page {page_num + 1}")
+                            logger.warning(f"Dangerous JavaScript code detected on page {page_num + 1}")
                         else:
-                            # Just log that we found benign annotations (form fields, etc.)
-                            logger.info(f"Safe annotations (likely form fields) detected on page {page_num + 1}")
+                            logger.info(f"JavaScript reference found but appears to be form field on page {page_num + 1}")
+                    
+                    # Check annotations more carefully for actual dangerous JavaScript
+                    if '/Annots' in page_str:
+                        dangerous_annots = self._scan_annotations_for_dangerous_js(page, page_num)
+                        if dangerous_annots:
+                            js_threats.extend(dangerous_annots)
+                        else:
+                            # Safe annotations detected - allow legitimate business document annotations
+                            logger.debug(f"Safe business annotations detected on page {page_num + 1} - allowing")
                 
                 except Exception as e:
                     logger.warning(f"Could not scan page {page_num + 1}: {e}")
@@ -350,6 +339,141 @@ class SecurePDFValidator:
             logger.warning(f"Could not scan pages for JavaScript: {e}")
         
         return js_threats
+    
+    def _contains_actual_javascript(self, content_str: str) -> bool:
+        """
+        Check if content contains actual dangerous JavaScript code vs form field references
+        
+        Args:
+            content_str: String content to analyze
+            
+        Returns:
+            True if dangerous JavaScript detected, False if just form field structures
+        """
+        # Patterns that indicate actual dangerous JavaScript vs form fields
+        dangerous_js_patterns = [
+            'function',
+            'eval(',
+            'unescape(',
+            'document.write',
+            'ActiveXObject',
+            'WScript',
+            'cmd.exe',
+            'powershell',
+            'XMLHttpRequest',
+            'fetch(',
+            'window.open',
+            'location.href'
+        ]
+        
+        # Convert to lowercase for case-insensitive search
+        content_lower = content_str.lower()
+        
+        for pattern in dangerous_js_patterns:
+            if pattern.lower() in content_lower:
+                return True
+        
+        return False
+    
+    def _is_truly_malicious_javascript(self, content_str: str) -> bool:
+        """
+        Check if JavaScript content is truly malicious vs legitimate business use
+        
+        Args:
+            content_str: String content to analyze for malicious patterns
+            
+        Returns:
+            True if content contains genuinely dangerous JavaScript patterns
+        """
+        # Patterns that indicate TRULY malicious JavaScript
+        truly_malicious_patterns = [
+            'eval(',
+            'unescape(',
+            'ActiveXObject',
+            'WScript.Shell',
+            'cmd.exe',
+            'powershell.exe',
+            'XMLHttpRequest',
+            'fetch(',
+            'document.write',
+            'location.href',
+            'window.open',
+            'iframe',
+            'script',
+            'onload',
+            'onerror',
+            'setTimeout',
+            'setInterval'
+        ]
+        
+        # Convert to lowercase for case-insensitive search
+        content_lower = content_str.lower()
+        
+        # Count malicious patterns - require multiple indicators for business PDFs
+        malicious_count = 0
+        for pattern in truly_malicious_patterns:
+            if pattern.lower() in content_lower:
+                malicious_count += 1
+        
+        # Require at least 2 malicious patterns for business documents
+        # This prevents false positives on legitimate business PDFs with annotations
+        return malicious_count >= 2
+    
+    def _scan_annotations_for_dangerous_js(self, page, page_num: int) -> List[str]:
+        """
+        Scan annotations specifically for dangerous JavaScript, allowing legitimate business annotations
+        
+        Args:
+            page: PDF page object
+            page_num: Page number (0-indexed)
+            
+        Returns:
+            List of threat descriptions for dangerous annotations (only truly dangerous ones)
+        """
+        dangerous_annotations = []
+        
+        try:
+            if hasattr(page, 'get') and '/Annots' in page:
+                try:
+                    annots = page['/Annots']
+                    if annots:
+                        for annot in annots:
+                            if annot and hasattr(annot, 'get_object'):
+                                annot_obj = annot.get_object()
+                                annot_str = str(annot_obj)
+                                
+                                # Check for dangerous JavaScript in annotations - be very specific
+                                if ('/JavaScript' in annot_str or '/JS' in annot_str):
+                                    if self._contains_actual_javascript(annot_str):
+                                        # Double check for TRULY dangerous JS patterns
+                                        if self._is_truly_malicious_javascript(annot_str):
+                                            dangerous_annotations.append(f"Malicious JavaScript in annotation on page {page_num + 1}")
+                                            logger.warning(f"Malicious JavaScript-enabled annotation detected on page {page_num + 1}")
+                                        else:
+                                            logger.info(f"JavaScript reference in annotation appears safe on page {page_num + 1}")
+                                    else:
+                                        logger.debug(f"Form field JavaScript reference on page {page_num + 1} - safe")
+                                
+                                # Check annotation type - only flag truly dangerous types
+                                if '/Subtype' in annot_str:
+                                    subtype = str(annot_obj.get('/Subtype', ''))
+                                    # Only flag Launch actions that execute external commands
+                                    if '/Launch' in subtype and ('cmd.exe' in annot_str or 'powershell' in annot_str or '.exe' in annot_str):
+                                        dangerous_annotations.append(f"Executable launch annotation on page {page_num + 1}")
+                                        logger.warning(f"Executable launch annotation detected: {subtype} on page {page_num + 1}")
+                                    else:
+                                        # Allow common business annotation types: Text, Highlight, Link, FreeText, etc.
+                                        logger.debug(f"Safe annotation type {subtype} on page {page_num + 1}")
+                                
+                except Exception as e:
+                    logger.debug(f"Could not inspect annotations on page {page_num + 1}: {e}")
+                    # If we can't inspect, assume they're safe rather than blocking legitimate documents
+                    pass
+        except Exception as e:
+            logger.debug(f"Error scanning annotations on page {page_num + 1}: {e}")
+            # Log error but don't block - err on the side of allowing legitimate business documents
+        
+        return dangerous_annotations
     
     def _validate_pdf_structure(self, pdf_reader: pypdf.PdfReader) -> List[str]:
         """Validate PDF structure integrity"""

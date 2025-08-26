@@ -32,7 +32,7 @@ const nextConfig = {
               script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.vercel-insights.com https://js.stripe.com;
               style-src 'self' 'unsafe-inline';
               img-src 'self' data: https:;
-              connect-src 'self' ws: wss: http://localhost:8000 https://pdf2excel-production.up.railway.app https://api.stripe.com;
+              connect-src 'self' ws: wss: http://localhost:8000 https://pdf2excel-production.up.railway.app https://api.stripe.com https://unccnmynqxjwxhrdnpzz.supabase.co;
               frame-src https://js.stripe.com https://hooks.stripe.com;
               frame-ancestors 'none';
               base-uri 'self';
