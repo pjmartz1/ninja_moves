@@ -21,13 +21,29 @@ export function SimpleHero({
 
   const fetchAccuracyData = async () => {
     try {
+      // Skip API call in production until CORS is fixed
+      if (process.env.NODE_ENV === 'production') {
+        // Use static data for production
+        setAccuracyData({
+          accuracy_proof: {
+            rate: '95%+',
+            total_users: '1,000+'
+          }
+        })
+        setLoading(false)
+        return
+      }
+      
       const response = await fetch(getApiUrl('/social-proof'))
       if (response.ok) {
         const data = await response.json()
         setAccuracyData(data)
       }
     } catch (error) {
-      console.error('Error fetching accuracy data:', error)
+      // Silently fail and use fallbacks - don't log in production
+      if (process.env.NODE_ENV !== 'production') {
+        console.error('Error fetching accuracy data:', error)
+      }
     } finally {
       setLoading(false)
     }
