@@ -14,10 +14,35 @@ export const getStripe = () => {
 // Backend Stripe instance (for API routes)
 export const stripe = process.env.STRIPE_SECRET_KEY 
   ? new Stripe(process.env.STRIPE_SECRET_KEY, {
-      apiVersion: '2025-07-30.basil',
+      apiVersion: '2023-10-16',
       typescript: true,
     })
   : null
+
+// Stripe Products Configuration
+export const STRIPE_PRODUCTS = {
+  starter: {
+    productId: 'prod_Sw2WAoYO8se63R',
+    priceId: 'price_1S0ARSKKzNl0eheFK7Kr5CUb',
+    name: 'PDFTablePro Starter',
+    price: '$19.99/month',
+    pages: 500
+  },
+  professional: {
+    productId: 'prod_Sw2WcrrYSkUr3W',
+    priceId: 'price_1S0ARSKKzNl0eheFtf7wJcm6',
+    name: 'PDFTablePro Professional',
+    price: '$49.99/month',
+    pages: 1500
+  },
+  business: {
+    productId: 'prod_Sw2WuXmv77OiN2',
+    priceId: 'price_1S0ARTKKzNl0eheF4CjO0Nr0',
+    name: 'PDFTablePro Business',
+    price: '$79.99/month',
+    pages: 5000
+  }
+}
 
 // Pricing configuration matching our CLAUDE.md strategy
 export const PRICING_PLANS = {
@@ -57,7 +82,7 @@ export const PRICING_PLANS = {
       daily: 50,
       monthly: 500,
     },
-    stripePriceId: 'price_starter_monthly', // To be replaced with actual Stripe price ID
+    stripePriceId: 'price_1S0ARSKKzNl0eheFK7Kr5CUb', // Starter plan monthly price
     popular: false,
   },
   PROFESSIONAL: {
@@ -77,7 +102,7 @@ export const PRICING_PLANS = {
       daily: 150,
       monthly: 1500,
     },
-    stripePriceId: 'price_professional_monthly',
+    stripePriceId: 'price_1S0ARSKKzNl0eheFtf7wJcm6', // Professional plan monthly price
     popular: true,
   },
   BUSINESS: {
@@ -97,7 +122,7 @@ export const PRICING_PLANS = {
       daily: 500,
       monthly: 5000,
     },
-    stripePriceId: 'price_business_monthly',
+    stripePriceId: 'price_1S0ARTKKzNl0eheF4CjO0Nr0', // Business plan monthly price
     popular: false,
   },
 } as const
