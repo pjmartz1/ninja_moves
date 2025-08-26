@@ -111,7 +111,8 @@ app.add_exception_handler(RateLimitExceeded, _rate_limit_exceeded_handler)
 
 # CORS middleware (restrictive for security)
 # Get allowed origins from environment or use defaults
-allowed_origins = os.environ.get('ALLOWED_ORIGINS', 'http://localhost:3000,http://localhost:3001,http://localhost:3002').split(',')
+default_origins = 'http://localhost:3000,http://localhost:3001,http://localhost:3002,https://www.pdf2excel.app,https://pdf2excel.app'
+allowed_origins = os.environ.get('ALLOWED_ORIGINS', default_origins).split(',')
 allowed_origins = [origin.strip() for origin in allowed_origins]
 
 app.add_middleware(
