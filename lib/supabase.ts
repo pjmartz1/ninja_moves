@@ -36,14 +36,25 @@ export async function updateUserUsage(userId: string, pagesUsed: number) {
   const profile = await getUserProfile(userId)
   
   if (!profile) {
-    // Create new profile if doesn't exist
+    // For users without profiles, check if they have an existing profile first
+    // This prevents overriding existing users (like admin) with 'free' tier
+    const { data: existingProfile } = await supabase
+      .from('user_profiles')
+      .select('tier')
+      .eq('id', userId)
+      .single()
+    
+    const defaultTier = existingProfile?.tier || 'free'
+    
+    // Create new profile if doesn't exist (use upsert to avoid duplicate key errors)
     const { error } = await supabase
       .from('user_profiles')
-      .insert({
+      .upsert({
         id: userId,
-        tier: 'free',
+        tier: defaultTier,
         pages_used_today: pagesUsed,
-        pages_used_month: pagesUsed
+        pages_used_month: pagesUsed,
+        last_reset_date: new Date().toISOString().split('T')[0]
       })
     
     if (error) console.error('Error creating user profile:', error)
