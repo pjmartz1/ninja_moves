@@ -103,3 +103,13 @@ FINAL_COMPETITOR_ANALYSIS_SUMMARY.md
 
 # Railway tokens and deployment configs
 RAILWAY_TOKEN
+
+# SECURITY: Admin and credential files (NEVER COMMIT)
+create_admin_user.py
+*admin*.py
+*credential*.py
+*secret*.py
+test-*-auth.py
+
+# MCP Configuration with API keys (NEVER COMMIT)
+.mcp.json

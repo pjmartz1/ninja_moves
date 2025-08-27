@@ -77,6 +77,7 @@ export default function AuthModal({ isOpen, onClose, view = 'sign_in' }: AuthMod
             showLinks={true}
             magicLink={true}
             socialLayout="horizontal"
+            passwordVisibility={true}
           />
         </div>
 

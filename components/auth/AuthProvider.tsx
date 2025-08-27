@@ -47,8 +47,8 @@ export default function AuthProvider({ children }: { children: React.ReactNode }
       setUser(session?.user ?? null)
       setLoading(false)
 
-      // Create user profile on signup
-      if (event === 'SIGNED_IN' && session?.user && !user) {
+      // Create user profile ONLY on signup, not login
+      if (event === 'SIGNED_UP' && session?.user) {
         await createUserProfile(session.user.id)
       }
     })
@@ -57,17 +57,23 @@ export default function AuthProvider({ children }: { children: React.ReactNode }
   }, [])
 
   const createUserProfile = async (userId: string) => {
+    // Use upsert to safely handle profile creation (prevents duplicate key errors)
     const { error } = await supabase
       .from('user_profiles')
-      .insert({
+      .upsert({
         id: userId,
         tier: 'free',
         pages_used_today: 0,
-        pages_used_month: 0
+        pages_used_month: 0,
+        last_reset_date: new Date().toISOString().split('T')[0]
+      }, {
+        onConflict: 'id'
       })
 
     if (error) {
       console.error('Error creating user profile:', error)
+    } else {
+      console.log('User profile created successfully for:', userId)
     }
   }
 

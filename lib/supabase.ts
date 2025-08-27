@@ -33,31 +33,34 @@ export async function getUserProfile(userId: string): Promise<UserProfile | null
 
 // Helper function to update user usage
 export async function updateUserUsage(userId: string, pagesUsed: number) {
-  const profile = await getUserProfile(userId)
+  // Try to get existing profile first (with proper error handling)
+  const { data: profile, error: profileError } = await supabase
+    .from('user_profiles')
+    .select('*')
+    .eq('id', userId)
+    .single()
   
-  if (!profile) {
-    // For users without profiles, check if they have an existing profile first
-    // This prevents overriding existing users (like admin) with 'free' tier
-    const { data: existingProfile } = await supabase
-      .from('user_profiles')
-      .select('tier')
-      .eq('id', userId)
-      .single()
+  if (!profile || profileError) {
+    console.log('No existing profile found, creating/updating with upsert...')
     
-    const defaultTier = existingProfile?.tier || 'free'
-    
-    // Create new profile if doesn't exist (use upsert to avoid duplicate key errors)
+    // Use upsert to handle both create and update scenarios safely
     const { error } = await supabase
       .from('user_profiles')
       .upsert({
         id: userId,
-        tier: defaultTier,
+        tier: profile?.tier || 'free', // Preserve existing tier if available
         pages_used_today: pagesUsed,
-        pages_used_month: pagesUsed,
+        pages_used_month: (profile?.pages_used_month || 0) + pagesUsed,
         last_reset_date: new Date().toISOString().split('T')[0]
+      }, {
+        onConflict: 'id' // Specify the conflict resolution column
       })
     
-    if (error) console.error('Error creating user profile:', error)
+    if (error) {
+      console.error('Error upserting user profile:', error)
+    } else {
+      console.log('User profile upserted successfully')
+    }
     return
   }
 
