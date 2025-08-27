@@ -363,8 +363,10 @@ async def extract_tables(
         logger.error(f"Error processing PDF {file.filename}: {error_msg}", exc_info=True)
         
         # Provide specific error messages for common issues
-        if "JavaScript detected in PDF" in error_msg:
-            detail = "PDF contains potentially dangerous content and cannot be processed for security reasons"
+        if "Malicious JavaScript" in error_msg:
+            detail = "PDF contains executable JavaScript that poses a security risk. For your safety, this type of PDF cannot be processed."
+        elif "JavaScript detected in PDF" in error_msg or "potentially dangerous annotations" in error_msg:
+            detail = "PDF security check failed. This may be due to form fields or interactive elements. Try saving the PDF as a 'print' version or contact support if this is a business document."
         elif "Encrypted PDFs are not supported" in error_msg:
             detail = "Encrypted PDFs cannot be processed. Please provide an unencrypted PDF file"
         elif "File too large" in error_msg:
@@ -373,6 +375,8 @@ async def extract_tables(
             detail = "Invalid PDF file format. Please ensure the file is a valid PDF"
         elif "Corrupted or invalid PDF" in error_msg:
             detail = "The PDF file appears to be corrupted. Please try a different file"
+        elif "Dangerous PDF features detected" in error_msg:
+            detail = "PDF contains advanced features that cannot be safely processed. Try exporting the document as a standard PDF without forms or scripts."
         elif "No tables found" in error_msg:
             detail = "No tables were detected in this PDF. Please ensure the PDF contains visible tables"
         else:

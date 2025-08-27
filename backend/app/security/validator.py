@@ -350,30 +350,56 @@ class SecurePDFValidator:
         Returns:
             True if dangerous JavaScript detected, False if just form field structures
         """
-        # Patterns that indicate actual dangerous JavaScript vs form fields
-        dangerous_js_patterns = [
-            'function',
+        # Patterns that indicate TRULY dangerous JavaScript vs legitimate business use
+        truly_dangerous_patterns = [
             'eval(',
             'unescape(',
-            'document.write',
             'ActiveXObject',
-            'WScript',
+            'WScript.Shell',
             'cmd.exe',
-            'powershell',
+            'powershell.exe',
+            'document.write',
             'XMLHttpRequest',
             'fetch(',
-            'window.open',
-            'location.href'
+            'iframe',
+            'script'
+        ]
+        
+        # Patterns that are common in business PDFs and should be allowed
+        business_safe_patterns = [
+            'function',  # Form validation functions
+            'window.open',  # Help links, print dialogs
+            'location.href',  # Navigation within business sites
+            'onload',  # Standard form initialization
+            'setTimeout',  # Form behavior timing
+            'setInterval'  # Form refresh patterns
         ]
         
         # Convert to lowercase for case-insensitive search
         content_lower = content_str.lower()
         
-        for pattern in dangerous_js_patterns:
+        # Count truly dangerous patterns
+        dangerous_count = 0
+        for pattern in truly_dangerous_patterns:
             if pattern.lower() in content_lower:
-                return True
+                dangerous_count += 1
+                logger.warning(f"Dangerous JavaScript pattern detected: {pattern}")
         
-        return False
+        # Check for business context - if it contains business-safe patterns,
+        # require more evidence of malicious intent
+        business_context_detected = False
+        for pattern in business_safe_patterns:
+            if pattern.lower() in content_lower:
+                business_context_detected = True
+                logger.debug(f"Business context pattern detected: {pattern}")
+                break
+        
+        if business_context_detected:
+            # In business context, require at least 2 dangerous patterns
+            return dangerous_count >= 2
+        else:
+            # In non-business context, 1 dangerous pattern is enough
+            return dangerous_count >= 1
     
     def _is_truly_malicious_javascript(self, content_str: str) -> bool:
         """
@@ -385,21 +411,29 @@ class SecurePDFValidator:
         Returns:
             True if content contains genuinely dangerous JavaScript patterns
         """
-        # Patterns that indicate TRULY malicious JavaScript
-        truly_malicious_patterns = [
+        # Patterns that indicate TRULY malicious JavaScript (high confidence)
+        high_risk_patterns = [
             'eval(',
             'unescape(',
             'ActiveXObject',
             'WScript.Shell',
             'cmd.exe',
             'powershell.exe',
+            'document.write',
+            'iframe'
+        ]
+        
+        # Medium risk patterns that need context
+        medium_risk_patterns = [
             'XMLHttpRequest',
             'fetch(',
-            'document.write',
+            'script'
+        ]
+        
+        # Low risk patterns (common in business PDFs)
+        low_risk_patterns = [
             'location.href',
             'window.open',
-            'iframe',
-            'script',
             'onload',
             'onerror',
             'setTimeout',
@@ -409,15 +443,94 @@ class SecurePDFValidator:
         # Convert to lowercase for case-insensitive search
         content_lower = content_str.lower()
         
-        # Count malicious patterns - require multiple indicators for business PDFs
-        malicious_count = 0
-        for pattern in truly_malicious_patterns:
-            if pattern.lower() in content_lower:
-                malicious_count += 1
+        # Count patterns by risk level
+        high_risk_count = 0
+        medium_risk_count = 0
+        low_risk_count = 0
         
-        # Require at least 2 malicious patterns for business documents
-        # This prevents false positives on legitimate business PDFs with annotations
-        return malicious_count >= 2
+        for pattern in high_risk_patterns:
+            if pattern.lower() in content_lower:
+                high_risk_count += 1
+                logger.warning(f"High-risk pattern detected: {pattern}")
+        
+        for pattern in medium_risk_patterns:
+            if pattern.lower() in content_lower:
+                medium_risk_count += 1
+                logger.info(f"Medium-risk pattern detected: {pattern}")
+        
+        for pattern in low_risk_patterns:
+            if pattern.lower() in content_lower:
+                low_risk_count += 1
+                logger.debug(f"Low-risk pattern detected: {pattern}")
+        
+        # Scoring system for malicious intent
+        malicious_score = (high_risk_count * 3) + (medium_risk_count * 2) + (low_risk_count * 1)
+        
+        # Check for external domain access (additional risk factor)
+        external_domain_patterns = ['http://', 'https://', 'ftp://']
+        external_access = any(pattern in content_lower for pattern in external_domain_patterns)
+        if external_access:
+            malicious_score += 2
+            logger.warning("External domain access detected in JavaScript")
+        
+        # Require score of 6+ for malicious classification (prevents false positives)
+        # This allows business PDFs with 1-2 low-risk patterns to pass
+        is_malicious = malicious_score >= 6
+        
+        if is_malicious:
+            logger.warning(f"JavaScript classified as malicious (score: {malicious_score})")
+        else:
+            logger.info(f"JavaScript appears safe for business use (score: {malicious_score})")
+        
+        return is_malicious
+    
+    def _is_business_annotation(self, annot_obj, annot_str: str) -> bool:
+        """
+        Check if annotation is a legitimate business annotation type
+        
+        Args:
+            annot_obj: PDF annotation object
+            annot_str: String representation of annotation
+            
+        Returns:
+            True if annotation appears to be legitimate business use
+        """
+        # Safe business annotation types
+        safe_annotation_types = [
+            '/Text',      # Text annotations (comments, notes)
+            '/Highlight', # Text highlighting
+            '/Link',      # Hyperlinks (navigation)
+            '/FreeText',  # Free text annotations
+            '/Square',    # Rectangle annotations
+            '/Circle',    # Circle annotations
+            '/Line',      # Line annotations
+            '/Polygon',   # Polygon annotations
+            '/Ink',       # Freehand annotations
+            '/Stamp',     # Stamp annotations
+            '/Widget'     # Form widgets (fields, buttons)
+        ]
+        
+        # Check annotation subtype
+        subtype = str(annot_obj.get('/Subtype', ''))
+        for safe_type in safe_annotation_types:
+            if safe_type in subtype:
+                logger.debug(f"Safe business annotation type detected: {safe_type}")
+                return True
+        
+        # Check for business domain whitelist in URLs
+        business_domains = [
+            'microsoft.com', 'office.com', 'adobe.com', 'google.com',
+            'salesforce.com', 'quickbooks.com', 'xero.com', 'sage.com',
+            'dropbox.com', 'box.com', 'sharepoint.com'
+        ]
+        
+        annot_lower = annot_str.lower()
+        for domain in business_domains:
+            if domain in annot_lower:
+                logger.debug(f"Business domain detected in annotation: {domain}")
+                return True
+        
+        return False
     
     def _scan_annotations_for_dangerous_js(self, page, page_num: int) -> List[str]:
         """
@@ -431,6 +544,7 @@ class SecurePDFValidator:
             List of threat descriptions for dangerous annotations (only truly dangerous ones)
         """
         dangerous_annotations = []
+        safe_annotations_count = 0
         
         try:
             if hasattr(page, 'get') and '/Annots' in page:
@@ -441,6 +555,12 @@ class SecurePDFValidator:
                             if annot and hasattr(annot, 'get_object'):
                                 annot_obj = annot.get_object()
                                 annot_str = str(annot_obj)
+                                
+                                # First check if this is a business annotation
+                                if self._is_business_annotation(annot_obj, annot_str):
+                                    safe_annotations_count += 1
+                                    logger.debug(f"Business annotation allowed on page {page_num + 1}")
+                                    continue
                                 
                                 # Check for dangerous JavaScript in annotations - be very specific
                                 if ('/JavaScript' in annot_str or '/JS' in annot_str):
@@ -457,13 +577,17 @@ class SecurePDFValidator:
                                 # Check annotation type - only flag truly dangerous types
                                 if '/Subtype' in annot_str:
                                     subtype = str(annot_obj.get('/Subtype', ''))
-                                    # Only flag Launch actions that execute external commands
-                                    if '/Launch' in subtype and ('cmd.exe' in annot_str or 'powershell' in annot_str or '.exe' in annot_str):
-                                        dangerous_annotations.append(f"Executable launch annotation on page {page_num + 1}")
-                                        logger.warning(f"Executable launch annotation detected: {subtype} on page {page_num + 1}")
-                                    else:
-                                        # Allow common business annotation types: Text, Highlight, Link, FreeText, etc.
-                                        logger.debug(f"Safe annotation type {subtype} on page {page_num + 1}")
+                                    # Only flag Launch actions that execute external commands with dangerous extensions
+                                    dangerous_extensions = ['.exe', '.bat', '.cmd', '.scr', '.com', '.pif']
+                                    if '/Launch' in subtype:
+                                        has_dangerous_extension = any(ext in annot_str.lower() for ext in dangerous_extensions)
+                                        has_system_command = any(cmd in annot_str.lower() for cmd in ['cmd.exe', 'powershell', 'wscript'])
+                                        
+                                        if has_dangerous_extension or has_system_command:
+                                            dangerous_annotations.append(f"Executable launch annotation on page {page_num + 1}")
+                                            logger.warning(f"Executable launch annotation detected: {subtype} on page {page_num + 1}")
+                                        else:
+                                            logger.debug(f"Launch annotation appears safe on page {page_num + 1}")
                                 
                 except Exception as e:
                     logger.debug(f"Could not inspect annotations on page {page_num + 1}: {e}")
@@ -472,6 +596,9 @@ class SecurePDFValidator:
         except Exception as e:
             logger.debug(f"Error scanning annotations on page {page_num + 1}: {e}")
             # Log error but don't block - err on the side of allowing legitimate business documents
+        
+        if safe_annotations_count > 0:
+            logger.info(f"Page {page_num + 1}: {safe_annotations_count} safe business annotations detected")
         
         return dangerous_annotations
     
