@@ -55,6 +55,7 @@ backend/venv/
 # IDE
 .vscode/
 .idea/
+.cursor/
 *.swp
 *.swo
 *~

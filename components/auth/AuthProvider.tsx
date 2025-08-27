@@ -48,8 +48,17 @@ export default function AuthProvider({ children }: { children: React.ReactNode }
       setLoading(false)
 
       // Create user profile ONLY on signup, not login
-      if (event === 'SIGNED_UP' && session?.user) {
-        await createUserProfile(session.user.id)
+      if (event === 'SIGNED_IN' && session?.user && !user) {
+        // Only create profile for new users (signup), not existing users (login)
+        const { data: existingProfile } = await supabase
+          .from('user_profiles')
+          .select('id')
+          .eq('id', session.user.id)
+          .single()
+        
+        if (!existingProfile) {
+          await createUserProfile(session.user.id)
+        }
       }
     })
 

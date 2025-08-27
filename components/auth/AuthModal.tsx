@@ -1,11 +1,11 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Auth } from '@supabase/auth-ui-react'
 import { ThemeSupa } from '@supabase/auth-ui-shared'
 import { supabase } from '@/lib/supabase'
 import { XMarkIcon } from '@heroicons/react/24/outline'
-import { BarChart3, FileText, TrendingUp, Mail, Gift, Rocket } from 'lucide-react'
+import { BarChart3, FileText, TrendingUp, Mail, Gift, Rocket, Eye, EyeOff } from 'lucide-react'
 
 interface AuthModalProps {
   isOpen: boolean
@@ -14,6 +14,61 @@ interface AuthModalProps {
 }
 
 export default function AuthModal({ isOpen, onClose, view = 'sign_in' }: AuthModalProps) {
+  const [showPassword, setShowPassword] = useState(false)
+  
+  // Add password visibility toggle to Supabase Auth inputs
+  useEffect(() => {
+    if (!isOpen) return
+    
+    const timer = setTimeout(() => {
+      const passwordInputs = document.querySelectorAll('input[type="password"]')
+      
+      passwordInputs.forEach((input) => {
+        // Skip if already has toggle
+        if (input.parentElement?.querySelector('.password-toggle')) return
+        
+        const inputElement = input as HTMLInputElement
+        const container = inputElement.parentElement
+        
+        if (container) {
+          // Create toggle button
+          const toggleButton = document.createElement('button')
+          toggleButton.type = 'button'
+          toggleButton.className = 'password-toggle absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600 focus:outline-none'
+          toggleButton.innerHTML = `
+            <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+            </svg>
+          `
+          
+          // Add click handler
+          toggleButton.addEventListener('click', () => {
+            const isPassword = inputElement.type === 'password'
+            inputElement.type = isPassword ? 'text' : 'password'
+            
+            // Update icon
+            toggleButton.innerHTML = isPassword 
+              ? `<svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.878 9.878L3 3m6.878 6.878L21 21" />
+                 </svg>`
+              : `<svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                 </svg>`
+          })
+          
+          // Style the container as relative and add the button
+          container.style.position = 'relative'
+          container.style.display = 'block'
+          container.appendChild(toggleButton)
+        }
+      })
+    }, 100) // Small delay to ensure Supabase Auth has rendered
+    
+    return () => clearTimeout(timer)
+  }, [isOpen, view])
+  
   if (!isOpen) return null
 
   return (
@@ -67,7 +122,7 @@ export default function AuthModal({ isOpen, onClose, view = 'sign_in' }: AuthMod
               className: {
                 anchor: 'text-orange-600 hover:text-orange-700 font-semibold transition-colors duration-200',
                 button: 'rounded-xl px-6 py-3 font-semibold transition-all duration-300 hover:shadow-medium hover:scale-105',
-                input: 'rounded-xl border-2 border-orange-100 px-4 py-3 focus:border-orange-500 focus:ring-2 focus:ring-orange-200 transition-all duration-200 font-medium',
+                input: 'rounded-xl border-2 border-orange-100 px-4 py-3 focus:border-orange-500 focus:ring-2 focus:ring-orange-200 transition-all duration-200 font-medium password-input',
                 label: 'block text-sm font-bold text-gray-700 mb-2',
                 message: 'text-sm text-red-600 mt-2 font-medium',
               },
@@ -77,7 +132,6 @@ export default function AuthModal({ isOpen, onClose, view = 'sign_in' }: AuthMod
             showLinks={true}
             magicLink={true}
             socialLayout="horizontal"
-            passwordVisibility={true}
           />
         </div>
 
