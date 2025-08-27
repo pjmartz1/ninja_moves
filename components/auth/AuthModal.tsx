@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react'
 import { Auth } from '@supabase/auth-ui-react'
 import { ThemeSupa } from '@supabase/auth-ui-shared'
 import { supabase } from '@/lib/supabase'
+import { useAuth } from './AuthProvider'
 import { XMarkIcon } from '@heroicons/react/24/outline'
 import { BarChart3, FileText, TrendingUp, Mail, Gift, Rocket, Eye, EyeOff } from 'lucide-react'
 
@@ -15,6 +16,19 @@ interface AuthModalProps {
 
 export default function AuthModal({ isOpen, onClose, view = 'sign_in' }: AuthModalProps) {
   const [showPassword, setShowPassword] = useState(false)
+  const { user, loading } = useAuth()
+  
+  // Auto-close modal on successful authentication
+  useEffect(() => {
+    if (user && !loading && isOpen) {
+      // Small delay for smooth UX transition
+      const timer = setTimeout(() => {
+        onClose()
+      }, 500)
+      
+      return () => clearTimeout(timer)
+    }
+  }, [user, loading, isOpen, onClose])
   
   // Add password visibility toggle to Supabase Auth inputs
   useEffect(() => {
@@ -34,7 +48,17 @@ export default function AuthModal({ isOpen, onClose, view = 'sign_in' }: AuthMod
           // Create toggle button
           const toggleButton = document.createElement('button')
           toggleButton.type = 'button'
-          toggleButton.className = 'password-toggle absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600 focus:outline-none'
+          toggleButton.className = 'password-toggle absolute right-3 text-gray-400 hover:text-gray-600 focus:outline-none'
+          
+          // Position toggle to perfectly align with input's visual center
+          // Direct offset adjustment based on measured 13px difference
+          toggleButton.style.top = '50%'
+          toggleButton.style.transform = 'translateY(-50%)'
+          toggleButton.style.height = '20px'
+          toggleButton.style.marginTop = '13px'  // Exact offset to align with input visual center
+          toggleButton.style.display = 'flex'
+          toggleButton.style.alignItems = 'center'
+          toggleButton.style.justifyContent = 'center'
           toggleButton.innerHTML = `
             <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
@@ -77,6 +101,9 @@ export default function AuthModal({ isOpen, onClose, view = 'sign_in' }: AuthMod
       onClick={onClose}
     >
       <div 
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="auth-modal-title"
         className="bg-white rounded-3xl p-8 w-full max-w-md mx-4 relative shadow-large border border-orange-100 animate-scale-in max-h-[90vh] overflow-y-auto"
         onClick={(e) => e.stopPropagation()}
       >
@@ -90,7 +117,7 @@ export default function AuthModal({ isOpen, onClose, view = 'sign_in' }: AuthMod
 
         {/* Compact header */}
         <div className="mb-6 text-center">
-          <h2 className="text-xl font-bold text-gray-900">
+          <h2 id="auth-modal-title" className="text-xl font-bold text-gray-900">
             {view === 'sign_up' ? 'Create Account' : 'Sign In'}
           </h2>
           <p className="text-sm text-gray-600 mt-1">
@@ -128,7 +155,7 @@ export default function AuthModal({ isOpen, onClose, view = 'sign_in' }: AuthMod
               },
             }}
             providers={['google']}
-            redirectTo={`${window.location.origin}/auth/callback`}
+            redirectTo={typeof window !== 'undefined' ? `${window.location.origin}/auth/callback` : '/auth/callback'}
             showLinks={true}
             magicLink={true}
             socialLayout="horizontal"

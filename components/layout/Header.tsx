@@ -1,8 +1,9 @@
 'use client'
 
 import React, { useState } from 'react'
-import { Menu, FileText } from 'lucide-react'
+import { Menu, FileText, LogOut, User } from 'lucide-react'
 import { Button } from '@/components/ui/button'
+import { useAuth } from '@/components/auth/AuthProvider'
 import {
   Sheet,
   SheetContent,
@@ -18,6 +19,8 @@ interface HeaderProps {
 }
 
 export default function Header({ className, onSignInClick, onSignUpClick }: HeaderProps = {}) {
+  const { user, signOut, loading } = useAuth()
+  
   const handleSignInClick = () => {
     if (onSignInClick) {
       onSignInClick()
@@ -28,6 +31,10 @@ export default function Header({ className, onSignInClick, onSignUpClick }: Head
     if (onSignUpClick) {
       onSignUpClick()
     }
+  }
+  
+  const handleSignOut = async () => {
+    await signOut()
   }
   return (
     <header className={`border-b border-orange-100 bg-white/80 backdrop-blur-sm ${className || ''}`}>
@@ -54,20 +61,47 @@ export default function Header({ className, onSignInClick, onSignUpClick }: Head
             Help Center
           </a>
           <div className="flex items-center space-x-3 ml-4">
-            <Button
-              variant="orangeOutline"
-              onClick={handleSignInClick}
-              className="font-medium"
-            >
-              Login
-            </Button>
-            <Button
-              variant="orange"
-              onClick={handleSignUpClick}
-              className="font-medium"
-            >
-              Sign Up
-            </Button>
+            {loading ? (
+              // Loading state
+              <div className="flex items-center space-x-3">
+                <div className="w-16 h-9 bg-gray-200 rounded-lg animate-pulse"></div>
+                <div className="w-20 h-9 bg-gray-200 rounded-lg animate-pulse"></div>
+              </div>
+            ) : user ? (
+              // Logged in state
+              <div className="flex items-center space-x-3">
+                <div className="flex items-center space-x-2 text-sm text-gray-600">
+                  <User className="h-4 w-4" />
+                  <span className="font-medium">{user.email}</span>
+                </div>
+                <Button
+                  variant="orangeOutline"
+                  onClick={handleSignOut}
+                  className="font-medium flex items-center gap-2"
+                >
+                  <LogOut className="h-4 w-4" />
+                  Logout
+                </Button>
+              </div>
+            ) : (
+              // Not logged in state
+              <>
+                <Button
+                  variant="orangeOutline"
+                  onClick={handleSignInClick}
+                  className="font-medium"
+                >
+                  Login
+                </Button>
+                <Button
+                  variant="orange"
+                  onClick={handleSignUpClick}
+                  className="font-medium"
+                >
+                  Sign Up
+                </Button>
+              </>
+            )}
           </div>
         </nav>
 
@@ -96,20 +130,47 @@ export default function Header({ className, onSignInClick, onSignUpClick }: Head
                   </a>
                 </div>
                 <div className="pt-4 border-t border-gray-200 space-y-3">
-                  <Button
-                    variant="orangeOutline"
-                    onClick={handleSignInClick}
-                    className="w-full font-medium"
-                  >
-                    Login
-                  </Button>
-                  <Button
-                    variant="orange"
-                    onClick={handleSignUpClick}
-                    className="w-full font-medium"
-                  >
-                    Sign Up
-                  </Button>
+                  {loading ? (
+                    // Loading state
+                    <div className="space-y-3">
+                      <div className="w-full h-10 bg-gray-200 rounded-lg animate-pulse"></div>
+                      <div className="w-full h-10 bg-gray-200 rounded-lg animate-pulse"></div>
+                    </div>
+                  ) : user ? (
+                    // Logged in state
+                    <div className="space-y-3">
+                      <div className="flex items-center justify-center space-x-2 p-3 bg-orange-50 rounded-lg">
+                        <User className="h-4 w-4 text-orange-600" />
+                        <span className="text-sm font-medium text-orange-800">{user.email}</span>
+                      </div>
+                      <Button
+                        variant="orangeOutline"
+                        onClick={handleSignOut}
+                        className="w-full font-medium flex items-center justify-center gap-2"
+                      >
+                        <LogOut className="h-4 w-4" />
+                        Logout
+                      </Button>
+                    </div>
+                  ) : (
+                    // Not logged in state
+                    <>
+                      <Button
+                        variant="orangeOutline"
+                        onClick={handleSignInClick}
+                        className="w-full font-medium"
+                      >
+                        Login
+                      </Button>
+                      <Button
+                        variant="orange"
+                        onClick={handleSignUpClick}
+                        className="w-full font-medium"
+                      >
+                        Sign Up
+                      </Button>
+                    </>
+                  )}
                 </div>
               </div>
             </SheetContent>

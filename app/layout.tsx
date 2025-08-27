@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import './globals.css'
-import AuthProvider from '@/components/auth/AuthProvider'
+import ClientProviders from '@/components/providers/ClientProviders'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -277,11 +277,11 @@ export default function RootLayout({
         <meta name="date" content={new Date().toISOString().split('T')[0]} />
       </head>
       <body className={inter.className}>
-        <AuthProvider>
+        <ClientProviders>
           <div className="min-h-screen bg-white">
             {children}
           </div>
-        </AuthProvider>
+        </ClientProviders>
       </body>
     </html>
   )
