@@ -2,6 +2,9 @@
 
 import { useEffect, useState } from 'react'
 import { SparklesIcon, CheckCircleIcon, ClockIcon } from '@heroicons/react/24/outline'
+import { useAuth } from '@/components/auth/AuthProvider'
+import UsageWidget from '@/components/auth/UsageWidget'
+import AnonymousUsageIndicator from '@/components/auth/AnonymousUsageIndicator'
 
 interface ProgressBarProps {
   progress: number
@@ -12,6 +15,7 @@ export default function ProgressBar({ progress, className = '' }: ProgressBarPro
   const [displayProgress, setDisplayProgress] = useState(0)
   const [statusMessage, setStatusMessage] = useState('')
   const [isAnimating, setIsAnimating] = useState(false)
+  const { user, loading } = useAuth()
 
   useEffect(() => {
     // Animate progress changes
@@ -144,6 +148,21 @@ export default function ProgressBar({ progress, className = '' }: ProgressBarPro
               <div className="text-xs text-gray-500 mt-1">
                 Processing at lightning speed ⚡
               </div>
+            </div>
+
+            {/* Usage Widget - Contextual placement during processing */}
+            <div className="bg-white/60 backdrop-blur-sm rounded-xl border border-orange-100">
+              {loading ? (
+                <div className="p-3 text-center">
+                  <div className="w-full h-12 bg-gray-200 rounded animate-pulse"></div>
+                </div>
+              ) : user ? (
+                <UsageWidget />
+              ) : (
+                <div className="p-1">
+                  <AnonymousUsageIndicator />
+                </div>
+              )}
             </div>
           </div>
         )}

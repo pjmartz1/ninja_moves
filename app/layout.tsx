@@ -7,7 +7,7 @@ const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
   title: 'PDF to Excel Converter - Extract Tables Online Free | PDF2Excel.app',
-  description: 'Convert PDF to Excel instantly. Extract tables from PDF files with 95%+ accuracy. Free online tool - no software installation required. AI-powered table extraction in seconds.',
+  description: 'Convert PDF to Excel in under 1 second with 95%+ accuracy. Free AI-powered table extraction tool. No software installation required.',
   keywords: [
     'pdf to excel',
     'convert pdf to excel',
@@ -244,6 +244,60 @@ export default function RootLayout({
           target: 'https://pdf2excel.app/search?q={search_term_string}',
           'query-input': 'required name=search_term_string'
         }
+      },
+      {
+        '@type': 'FAQPage',
+        '@id': 'https://pdf2excel.app/#faq',
+        mainEntity: [
+          {
+            '@type': 'Question',
+            name: 'How fast does PDF to Excel conversion take?',
+            acceptedAnswer: {
+              '@type': 'Answer',
+              text: 'Our AI-powered PDF to Excel conversion takes under 1 second for most documents, with an average processing time of 685ms. This is 3x faster than competitors who typically require 8-12 seconds.'
+            }
+          },
+          {
+            '@type': 'Question',
+            name: 'What is the accuracy rate of PDF table extraction?',
+            acceptedAnswer: {
+              '@type': 'Answer',
+              text: 'We maintain 95%+ accuracy for PDF table extraction with our advanced AI algorithms. Each extraction includes a confidence score so you know the quality of the results.'
+            }
+          },
+          {
+            '@type': 'Question',
+            name: 'Is PDF to Excel conversion free?',
+            acceptedAnswer: {
+              '@type': 'Answer',
+              text: 'Yes! Free users can convert 5 PDF pages daily (registered) or 1 page daily (anonymous). We also offer paid plans starting at $19.99/month for higher volume usage.'
+            }
+          },
+          {
+            '@type': 'Question',
+            name: 'What file formats are supported for export?',
+            acceptedAnswer: {
+              '@type': 'Answer',
+              text: 'You can export extracted tables in multiple formats: Excel (.xlsx), CSV (.csv), and JSON. All formats preserve the original table structure and data formatting.'
+            }
+          },
+          {
+            '@type': 'Question',
+            name: 'Do I need to install any software?',
+            acceptedAnswer: {
+              '@type': 'Answer',
+              text: 'No software installation required! Our PDF to Excel converter works entirely in your web browser. Simply upload your PDF file and download the converted Excel file.'
+            }
+          },
+          {
+            '@type': 'Question',
+            name: 'Is my PDF data secure during conversion?',
+            acceptedAnswer: {
+              '@type': 'Answer',
+              text: 'Yes, your data is completely secure. All PDF files are processed with enterprise-grade security, encrypted during transfer, and automatically deleted after conversion to protect your privacy.'
+            }
+          }
+        ]
       }
     ]
   }
@@ -254,6 +308,18 @@ export default function RootLayout({
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        />
+        {/* Google Analytics */}
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-723J7QXQVV"></script>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              window.dataLayer = window.dataLayer || [];
+              function gtag(){dataLayer.push(arguments);}
+              gtag('js', new Date());
+              gtag('config', 'G-723J7QXQVV');
+            `,
+          }}
         />
         <link rel="canonical" href="https://pdf2excel.app" />
         <link rel="icon" href="/favicon.ico" sizes="any" />

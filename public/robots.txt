@@ -1,4 +1,4 @@
-# robots.txt for PDFTablePro
+# robots.txt for PDF2Excel.app
 # AI-powered PDF table extraction tool
 
 User-agent: *
@@ -7,7 +7,7 @@ Allow: /
 # Priority pages for crawling
 Allow: /pricing
 Allow: /features
-Allow: /docs
+Allow: /help
 
 # Block admin and private areas
 Disallow: /api/
@@ -18,7 +18,7 @@ Disallow: /temp/
 Disallow: /uploads/
 
 # Sitemap location
-Sitemap: https://pdftablepro.com/sitemap.xml
+Sitemap: https://pdf2excel.app/sitemap.xml
 
 # Crawl delay for respectful crawling
 Crawl-delay: 1

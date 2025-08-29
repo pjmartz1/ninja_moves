@@ -5,7 +5,7 @@ import Link from 'next/link'
 import { Card, CardContent } from '@/components/ui/card'
 import { Separator } from '@/components/ui/separator'
 import { Button } from '@/components/ui/button'
-import { Heart, Mail, Github, Twitter, Linkedin, FileText } from 'lucide-react'
+import { Heart, FileText } from 'lucide-react'
 
 export default function Footer() {
   const currentYear = new Date().getFullYear()
@@ -25,9 +25,9 @@ export default function Footer() {
                   <div className="bg-gradient-to-br from-orange-500 to-amber-600 rounded-xl p-2.5 shadow-lg">
                     <FileText className="h-8 w-8 text-white" />
                   </div>
-                  <h1 className="text-2xl font-black text-gray-900">
+                  <h2 className="text-2xl font-black text-gray-900">
                     PDF2Excel.app
-                  </h1>
+                  </h2>
                 </a>
               </div>
               <p className="text-gray-600 text-base leading-relaxed mb-6 max-w-md">
@@ -103,27 +103,8 @@ export default function Footer() {
               </div>
             </div>
             
-            {/* Social Links & CTA */}
-            <div className="flex items-center space-x-4">
-              
-              {/* Social Media Links */}
-              <div className="flex items-center space-x-2">
-                <Button variant="ghost" size="sm" className="h-8 w-8 p-0 text-gray-600 hover:text-orange-600 hover:bg-orange-50">
-                  <Twitter className="h-4 w-4" />
-                </Button>
-                <Button variant="ghost" size="sm" className="h-8 w-8 p-0 text-gray-600 hover:text-orange-600 hover:bg-orange-50">
-                  <Github className="h-4 w-4" />
-                </Button>
-                <Button variant="ghost" size="sm" className="h-8 w-8 p-0 text-gray-600 hover:text-orange-600 hover:bg-orange-50">
-                  <Linkedin className="h-4 w-4" />
-                </Button>
-                <Button variant="ghost" size="sm" className="h-8 w-8 p-0 text-gray-600 hover:text-orange-600 hover:bg-orange-50">
-                  <Mail className="h-4 w-4" />
-                </Button>
-              </div>
-              
-              <Separator orientation="vertical" className="h-6 bg-orange-200/50" />
-              
+            {/* CTA Section */}
+            <div className="flex items-center">
               {/* CTA Button */}
               <Button className="bg-gradient-to-r from-orange-500 to-amber-500 hover:from-orange-600 hover:to-amber-600 text-white font-semibold px-6 py-2 shadow-lg hover:shadow-glow-orange transition-all duration-300">
                 Try Free Now

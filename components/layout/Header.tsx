@@ -44,18 +44,15 @@ export default function Header({ className, onSignInClick, onSignUpClick }: Head
           <div className="bg-gradient-to-br from-orange-500 to-amber-600 rounded-xl p-2.5 shadow-lg">
             <FileText className="h-8 w-8 text-white" />
           </div>
-          <h1 className="text-2xl font-black text-gray-900">
+          <div className="text-2xl font-black text-gray-900">
             PDF2Excel.app
-          </h1>
+          </div>
         </a>
 
         {/* Desktop Navigation - with Login button */}
         <nav className="hidden md:flex items-center space-x-6">
           <a href="/features" className="text-gray-700 hover:text-orange-600 font-medium transition-colors">
             Features
-          </a>
-          <a href="/pricing" className="text-gray-700 hover:text-orange-600 font-medium transition-colors">
-            Pricing
           </a>
           <a href="/help" className="text-gray-700 hover:text-orange-600 font-medium transition-colors">
             Help Center
@@ -69,7 +66,7 @@ export default function Header({ className, onSignInClick, onSignUpClick }: Head
               </div>
             ) : user ? (
               // Logged in state
-              <div className="flex items-center space-x-3">
+              <div className="flex items-center space-x-4">
                 <div className="flex items-center space-x-2 text-sm text-gray-600">
                   <User className="h-4 w-4" />
                   <span className="font-medium">{user.email}</span>
@@ -85,7 +82,7 @@ export default function Header({ className, onSignInClick, onSignUpClick }: Head
               </div>
             ) : (
               // Not logged in state
-              <>
+              <div className="flex items-center space-x-3">
                 <Button
                   variant="orangeOutline"
                   onClick={handleSignInClick}
@@ -100,7 +97,7 @@ export default function Header({ className, onSignInClick, onSignUpClick }: Head
                 >
                   Sign Up
                 </Button>
-              </>
+              </div>
             )}
           </div>
         </nav>
@@ -122,9 +119,6 @@ export default function Header({ className, onSignInClick, onSignUpClick }: Head
                   <a href="/features" className="block text-gray-700 hover:text-orange-600 font-medium py-2 transition-colors">
                     Features
                   </a>
-                  <a href="/pricing" className="block text-gray-700 hover:text-orange-600 font-medium py-2 transition-colors">
-                    Pricing
-                  </a>
                   <a href="/help" className="block text-gray-700 hover:text-orange-600 font-medium py-2 transition-colors">
                     Help Center
                   </a>
@@ -138,7 +132,7 @@ export default function Header({ className, onSignInClick, onSignUpClick }: Head
                     </div>
                   ) : user ? (
                     // Logged in state
-                    <div className="space-y-3">
+                    <div className="space-y-4">
                       <div className="flex items-center justify-center space-x-2 p-3 bg-orange-50 rounded-lg">
                         <User className="h-4 w-4 text-orange-600" />
                         <span className="text-sm font-medium text-orange-800">{user.email}</span>
@@ -154,7 +148,7 @@ export default function Header({ className, onSignInClick, onSignUpClick }: Head
                     </div>
                   ) : (
                     // Not logged in state
-                    <>
+                    <div className="space-y-4">
                       <Button
                         variant="orangeOutline"
                         onClick={handleSignInClick}
@@ -169,7 +163,7 @@ export default function Header({ className, onSignInClick, onSignUpClick }: Head
                       >
                         Sign Up
                       </Button>
-                    </>
+                    </div>
                   )}
                 </div>
               </div>

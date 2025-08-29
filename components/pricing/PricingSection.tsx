@@ -1,7 +1,7 @@
 'use client'
 
 import React from 'react'
-import { Check, Zap, Target, Star, Crown } from 'lucide-react'
+import { Check, Zap, Target, Star, Crown, Loader2 } from 'lucide-react'
 import { PRICING_PLANS, formatPrice, type PricingPlan } from '@/lib/stripe'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
@@ -11,9 +11,11 @@ interface PricingCardProps {
   plan: PricingPlan
   config: typeof PRICING_PLANS[PricingPlan]
   onSelectPlan: (plan: PricingPlan) => void
+  loadingPlan?: PricingPlan | null
 }
 
-function PricingCard({ plan, config, onSelectPlan }: PricingCardProps) {
+function PricingCard({ plan, config, onSelectPlan, loadingPlan }: PricingCardProps) {
+  const isLoading = loadingPlan === plan
   return (
     <Card className={`relative transition-all duration-200 hover:shadow-xl ${
       config.popular 
@@ -61,6 +63,7 @@ function PricingCard({ plan, config, onSelectPlan }: PricingCardProps) {
 
         <Button
           onClick={() => onSelectPlan(plan)}
+          disabled={isLoading}
           className={`w-full mb-6 ${
             config.popular
               ? 'bg-gradient-to-r from-orange-500 to-amber-500 hover:from-orange-600 hover:to-amber-600'
@@ -70,7 +73,14 @@ function PricingCard({ plan, config, onSelectPlan }: PricingCardProps) {
           }`}
           size="lg"
         >
-          {plan === 'FREE' ? 'Get Started Free' : 'Choose Plan'}
+          {isLoading ? (
+            <>
+              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+              Processing...
+            </>
+          ) : (
+            plan === 'FREE' ? 'Get Started Free' : 'Choose Plan'
+          )}
         </Button>
         
         <ul className="space-y-3 text-left">
@@ -90,9 +100,10 @@ function PricingCard({ plan, config, onSelectPlan }: PricingCardProps) {
 
 interface PricingSectionProps {
   onSelectPlan?: (plan: PricingPlan) => void
+  loadingPlan?: PricingPlan | null
 }
 
-export default function PricingSection({ onSelectPlan = () => {} }: PricingSectionProps) {
+export default function PricingSection({ onSelectPlan = () => {}, loadingPlan }: PricingSectionProps) {
   return (
     <section className="py-20 bg-gradient-to-b from-gray-50/50 to-white">
       <div className="container mx-auto px-6">
@@ -131,6 +142,7 @@ export default function PricingSection({ onSelectPlan = () => {} }: PricingSecti
               plan={plan}
               config={config}
               onSelectPlan={onSelectPlan}
+              loadingPlan={loadingPlan}
             />
           ))}
         </div>
@@ -144,39 +156,6 @@ export default function PricingSection({ onSelectPlan = () => {} }: PricingSecti
             </Button>
           </p>
         </div>
-        
-        {/* Enterprise CTA */}
-        <Card className="bg-gradient-to-r from-gray-900 to-gray-800 border-0">
-          <CardHeader className="text-center">
-            <CardTitle className="text-3xl font-bold text-white mb-4 flex items-center justify-center gap-2">
-              <Crown className="h-8 w-8 text-orange-400" />
-              Enterprise & Custom Solutions
-            </CardTitle>
-            <CardDescription className="text-gray-300 text-lg max-w-2xl mx-auto">
-              Need unlimited processing, custom integrations, or dedicated infrastructure? 
-              We work with large organizations to provide tailored PDF table extraction solutions.
-            </CardDescription>
-          </CardHeader>
-          <CardContent className="text-center">
-            <div className="grid md:grid-cols-3 gap-6 mb-8">
-              <div className="text-center">
-                <div className="text-orange-400 font-bold text-xl mb-2">Unlimited Pages</div>
-                <div className="text-gray-400 text-sm">No monthly limits</div>
-              </div>
-              <div className="text-center">
-                <div className="text-orange-400 font-bold text-xl mb-2">99.9% SLA</div>
-                <div className="text-gray-400 text-sm">Guaranteed uptime</div>
-              </div>
-              <div className="text-center">
-                <div className="text-orange-400 font-bold text-xl mb-2">Custom Integration</div>
-                <div className="text-gray-400 text-sm">API & white-label options</div>
-              </div>
-            </div>
-            <Button size="lg" className="bg-orange-500 hover:bg-orange-600 text-white text-lg px-8 py-3">
-              Contact Sales Team
-            </Button>
-          </CardContent>
-        </Card>
       </div>
     </section>
   )

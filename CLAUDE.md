@@ -1,774 +1,107 @@
-# PDF Table Extractor - Project Documentation
+# PDFTablePro - Development Guide
 
 ## 🤖 Claude Development Instructions
 
 **IMPORTANT - Token Usage Optimization:**
-- Use `/compact` command when context gets too large
-- Use `/clear` command to clean up context when needed
-- Keep responses concise and focused on the task at hand
-- Batch tool calls together for optimal performance
-
-# 📋 PDFTablePro - Feature Improvements Roadmap
-
-## Week 1 – MVP++ (Accuracy & Trust) 
-✅ **COMPLETED: OCR for Scanned PDFs (Paid Only)**
-- ✅ Tesseract integration complete and functional
-- ✅ Restricted to paid plans only  
-- ✅ Automatic scanned PDF detection
-✅ **COMPLETED: Accuracy Feedback Widget**
-- ✅ Post-extraction "Was this accurate?" feedback system
-- ✅ Two-step UX: "Yes, looks good" vs "Needs work" with optional notes
-- ✅ Real-time social proof display with live statistics
-- ✅ API endpoints: POST /feedback/accuracy, GET /social-proof
-- [ ] **Publish Accuracy Benchmarks**
-  - Use existing `pdf_accuracy_test_results.json`
-  - Display accuracy rates and sample tables on a public page
-- [ ] **Confidence Score in Preview**
-  - Show % accuracy/confidence overlay when previewing table
-  - Display before download
-
----
-
-## Week 2 – Convenience & UX
-- [ ] **Google Drive Import**
-  - OAuth integration for Drive file selection
-  - Store files only short-term
-- [ ] **Batch Processing (Paid)**
-  - Allow multiple uploads at once for paid tiers
-  - Free tier remains single-file only
-- [ ] **Usage Dashboard**
-  - Show users current page usage/month
-  - Add clear upgrade CTAs when nearing limit
-
----
-
-## Week 3 – Developer & Business Features
-- [ ] **API Access**
-  - Expose API endpoints for paid users
-  - Implement API key management + usage limits
-- [ ] **File Type Detection**
-  - Auto-detect numbers, currency, and dates
-  - Apply correct formatting in Excel/CSV outputs
-- [ ] **Prepaid Page Bundles**
-  - Offer extra credits (e.g., $2 = 200 pages)
-  - Avoid postpaid surprise charges
-
----
-
-## Deferred / Nice-to-Have
-- [ ] **Multi-language OCR**
-  - Add support after English OCR is stable and cost-effective
-- [ ] **Cross-platform Apps**
-  - Consider desktop/mobile wrappers after core product traction
-
-## 📋 Current Build Progress Log
-
-### 🎉 **PROJECT STATUS: PRODUCTION READY FOR LAUNCH**
-**Core Backend:** ✅ P0 Security, FastAPI, PDF processing, rate limiting, file validation
-**Frontend:** ✅ Next.js, drag-and-drop, responsive design, TailwindCSS, shadcn/ui components
-**Authentication:** ✅ Supabase Auth configured, user tiers, JWT validation
-**Integration:** ✅ Frontend + Backend fully operational, file upload/download working
-**Payment Processing:** ✅ Stripe integration complete with 4-tier pricing
-**SEO Optimization:** ✅ "PDF to Excel" keywords, meta tags, schema markup, robots.txt
-**Security:** ✅ 95.45% pass rate (Grade A), comprehensive security headers
-**Performance:** ✅ Sub-second processing (0.03s-2.99s), competitive advantage
-
-### **COMPLETED ACHIEVEMENTS:**
-- ✅ **UI/UX Enhancement Complete** - Premium aesthetic with two-column layout, professional footer
-- ✅ **File Upload Workflow Operational** - Complete PDF extraction pipeline working end-to-end
-- ✅ **Stripe Payment Integration** - Full MCP server configuration with pricing tiers
-- ✅ **SEO Strategy Pivot** - Targeting "PDF to Excel" (2.28M searches vs 4.9K)
-- ✅ **Comprehensive QA Testing** - 118 tests across 10 phases (85.2% pass rate)
-- ✅ **Competitive Analysis** - 3x faster than competitors, unique API-first architecture
-- ✅ **Production Deployment Ready** - Environment configured, documentation complete
-
-### **CURRENT STATUS: READY FOR PRODUCTION LAUNCH**
-All core functionality implemented and tested. System demonstrates:
-- Excellent security posture (Grade A)
-- Superior performance vs competitors
-- Complete feature set for immediate market deployment
-
-## 🎯 Product Requirements Document (PRD)
-
-### Project Overview
-**Product Name:** PDFTablePro  
-**Mission:** Extract tables from PDF files to Excel/CSV with one-click simplicity  
-**Target Users:** Finance professionals, researchers, data analysts, small business owners  
-**Budget:** $200 CAD maximum infrastructure cost  
-**Timeline:** 4-week MVP launch  
-
-### Core Value Proposition
-"Extract PDF tables to Excel in 10 seconds - no manual selection, no software installation, no accuracy nightmares"
-
-### User Stories
-
-#### Primary User Stories
-1. **As a finance analyst**, I want to extract bank statement tables to CSV so I can analyze transaction data
-2. **As a researcher**, I want to convert research paper tables to Excel so I can perform statistical analysis
-3. **As a small business owner**, I want to extract invoice tables so I can track expenses automatically
-4. **As an accountant**, I want to convert PDF financial reports to Excel so I can create consolidated reports
-
-#### Secondary User Stories
-1. **As a developer**, I want API access so I can integrate table extraction into my application
-2. **As a team lead**, I want batch processing so I can extract multiple PDFs at once
-3. **As a consultant**, I want white-label options so I can offer this service to clients
-
-### Technical Requirements
-
-#### Functional Requirements
-- **File Upload:** Drag-and-drop PDF files (max 10MB)
-- **Auto-Detection:** Automatically identify tables without manual selection
-- **Format Support:** Export to CSV, Excel (.xlsx), JSON
-- **Processing Speed:** Complete extraction in under 30 seconds
-- **Accuracy:** 95%+ table structure recognition rate
-- **File Types:** Support text-based PDFs (not scanned initially)
-
-#### Non-Functional Requirements
-- **Performance:** Handle 100 concurrent users
-- **Uptime:** 99.5% availability
-- **Security:** No permanent file storage, auto-delete after 1 hour
-- **Mobile:** Responsive design for mobile uploads
-- **SEO:** Optimized for "pdf table extraction" keywords
-
-### Success Metrics
-- **Primary:** 500 monthly active users within 3 months
-- **Secondary:** 10% conversion rate (free → paid)
-- **Revenue:** $1,000 MRR within 6 months
-- **Technical:** <30 second processing time, 95% accuracy rate
-
----
-
-## 🔍 SEO & Marketing Strategy
-
-### Primary Keyword Analysis ("pdf table extraction")
-- **Monthly Search Volume:** 4,900 searches
-- **Keyword Difficulty:** 25/100 (STILL EASY - excellent opportunity!)
-- **Search Trend:** Consistent growth, +49% increase over 2 years
-- **Market Gap:** No dominant commercial players in top 10 results
-
-### Long-tail Keyword Opportunities
-**High-Priority Targets:**
-- "extract tables from pdf python" (1,100 searches)
-- "extract a table from pdf to excel" (770 searches)
-- "extract table from pdf to excel" (190 searches)
-- "extract table data from pdf" (4,900 searches)
-- "get table from pdf" (110 searches)
-
-### Competitive Analysis (Top 6 Results)
-1. **tabula.technology/** (DA: 49) - Open source tool
-2. **reddit.com/r/dataengineering** (DA: 92) - Discussion threads  
-3. **nanonets.com** (DA: 46) - AI document processing
-4. **stackoverflow.com** (DA: 92) - Technical Q&A
-5. **arxiv.org** (DA: 93) - Academic research
-6. **ronnaywang.github.io/pdf-table** (DA: 23) - GitHub project
-
-**Key Insight:** Market dominated by open-source tools and forums - major opportunity for commercial solution!
-
-### Technical SEO Strategy
-1. **Primary Pages:** Target "pdf table extraction" + variations
-2. **Content Hubs:** Create guides for each use case (finance, research, business)
-3. **Schema Markup:** SoftwareApplication + Tool structured data
-4. **Long-form Content:** "Complete Guide to PDF Table Extraction" (target 3k+ words)
-
-### Content Marketing Plan
-**Phase 1: Foundation Content**
-- "How to Extract Tables from PDF Files" (target: 770 searches)
-- "PDF to Excel Conversion Guide" (target multiple long-tails)
-- "Best PDF Table Extraction Tools 2025" (competitive comparison)
-
-**Phase 2: Technical Content**
-- "PDF Table Extraction with Python vs Online Tools"
-- "Automating Financial Data Processing" 
-- "Research Paper Data Extraction Methods"
-
-**Phase 3: Industry-Specific**
-- "Bank Statement Processing for Accountants"
-- "Invoice Data Extraction for Small Business"
-- "Academic Research Table Processing"
-
----
-
-## 💰 FINALIZED PRICING STRATEGY
-
-### Market Research Analysis
-**Competitor Pricing (bankstatementconverter.com):**
-- Starter: $30/month (400 pages)
-- Professional: $60/month (1,000 pages)  
-- Business: $99/month (4,000 pages)
-- Enterprise: Contact sales
-
-**SEO Market Research:**
-- Primary keyword "pdf table extraction": 4,900 monthly searches
-- Keyword difficulty: 25/100 (low competition)
-- Market dominated by open-source tools - commercial opportunity exists
-
-### Our Competitive Pricing Strategy
-
-#### **Free Tier** (Powered by Supabase Auth)
-**Anonymous Users**
-- 1 PDF page every 24 hours
-- No registration required
-- CSV export only
-- Basic table extraction
-- File auto-deleted after 1 hour
-
-**Registered Users (Free)** ⭐ ENHANCED WITH SUPABASE
-- **5 PDF pages daily, 50 pages monthly**
-- **One-click signup via Supabase Auth UI**
-- **Google/GitHub social login options**
-- All export formats (CSV, Excel, JSON)
-- **Personal usage dashboard**
-- **Usage analytics and history**
-- Email support
-
-#### **Paid Tiers** *(Undercutting competitor by 25-35%)*
-
-**Starter: $19.99/month** *(vs competitor's $30)*
-- **500 pages/month** *(25% more than competitor's 400)*
-- All export formats (CSV, Excel, JSON)
-- Batch processing (up to 3 files)
-- Email support
-- **Value prop:** 25% more pages for 33% less cost
-
-**Professional: $49.99/month** *(vs competitor's $60)*
-- **1,500 pages/month** *(50% more than competitor's 1,000)*
-- Unlimited batch processing
-- API access (5,000 calls/month)
-- Priority processing (<15 seconds)
-- Advanced table detection
-- **Value prop:** 50% more pages for 17% less cost
-
-**Business: $79.99/month** *(vs competitor's $99)*
-- **5,000 pages/month** *(25% more than competitor's 4,000)*
-- Full API access (25,000 calls/month)
-- White-label options
-- Custom integrations
-- Phone + email support
-- **Value prop:** 25% more pages for 19% less cost
-
-**Enterprise: $149/month** *(vs competitor's "Contact Sales")*
-- **Unlimited pages**
-- Dedicated infrastructure  
-- SLA guarantees (99.9% uptime)
-- Custom integrations
-- Priority support
-- **Value prop:** Transparent pricing vs sales gatekeeping
-
-### Revenue & Cost Analysis
-
-#### **Processing Costs (Vercel-based)**
-- **Cost per page:** ~$0.0005 (based on 3-5 seconds processing time)
-- **1,000 pages:** ~$0.50 processing cost
-- **5,000 pages:** ~$2.50 processing cost
-- **Profit margins:** 95%+ at all tiers
-
-#### **Conservative Revenue Projection (6 months)**
-```
-50 Starter users ($19.99):     $999/month
-30 Professional ($49.99):    $1,499/month  
-15 Business ($79.99):        $1,199/month
-5 Enterprise ($149):           $745/month
-----------------------------------------
-Total Revenue:              $4,442/month
-Infrastructure Costs:         ~$200/month
-Profit:                     $4,242/month (95% margin)
-```
-
-#### **Market Positioning**
-- **25-50% more pages** for **17-33% less cost**
-- **Broader market appeal** (all PDFs vs. just bank statements)
-- **Modern technology stack** (faster, more reliable)
-- **Transparent pricing** (no sales calls required)
-- **API-first approach** for developers
-
-### Pricing Psychology
-- **$19.99 vs $20:** Psychological pricing advantage
-- **Free tier with real value:** 5 pages/day builds habit
-- **Clear upgrade path:** Natural progression as usage grows
-- **Enterprise transparency:** Removes sales friction
-
----
-
-## 🔒 SECURITY IMPLEMENTATION (PRIORITIZED)
-
-### 🚨 P0 - CRITICAL (Must Have Before Launch - Week 1)
-
-#### 1. **Secure PDF Processing**
-```python
-import pypdf
-from pdf2image import convert_from_path
-import magic
-import hashlib
-import uuid
-
-class SecurePDFProcessor:
-    def __init__(self):
-        self.max_pages = 100
-        self.max_processing_time = 60
-        self.max_file_size_mb = 10
-        
-    def validate_pdf_file(self, file_path):
-        """Critical: Validate PDF before processing"""
-        # Check magic bytes (not just extension)
-        mime_type = magic.from_file(file_path, mime=True)
-        if mime_type != 'application/pdf':
-            raise ValueError("Invalid PDF file")
-        
-        # Check file size
-        if os.path.getsize(file_path) > self.max_file_size_mb * 1024 * 1024:
-            raise ValueError("File too large")
-            
-        # Check for embedded JavaScript/files
-        with open(file_path, 'rb') as f:
-            pdf_reader = pypdf.PdfReader(f, strict=True)
-            
-            if '/JavaScript' in pdf_reader.trailer:
-                raise SecurityError("PDF contains JavaScript")
-            
-            if '/EmbeddedFiles' in pdf_reader.trailer:
-                raise SecurityError("PDF contains embedded files")
-                
-            if len(pdf_reader.pages) > self.max_pages:
-                raise ValueError(f"PDF exceeds {self.max_pages} pages")
-```
-
-#### 2. **Path Traversal Prevention**
-```python
-import os
-from pathlib import Path
-
-class SecureFileHandler:
-    def __init__(self):
-        self.upload_dir = Path("/app/uploads")
-        self.allowed_extensions = {'.pdf'}
-        
-    def secure_save_file(self, file_content, original_filename):
-        """Critical: Prevent path traversal attacks"""
-        # Generate random filename
-        file_id = str(uuid.uuid4())
-        
-        # Validate extension
-        _, ext = os.path.splitext(original_filename)
-        if ext.lower() not in self.allowed_extensions:
-            raise ValueError("Invalid file extension")
-        
-        # Create secure path
-        secure_filename = f"{file_id}{ext}"
-        file_path = self.upload_dir / secure_filename
-        
-        # Ensure path is within upload directory
-        if not file_path.resolve().is_relative_to(self.upload_dir.resolve()):
-            raise SecurityError("Path traversal attempt detected")
-        
-        # Write with restricted permissions
-        with open(file_path, 'wb') as f:
-            f.write(file_content)
-        os.chmod(file_path, 0o600)
-        
-        return file_id
-```
-
-#### 3. **Input Validation & Sanitization**
-```python
-from pydantic import BaseModel, validator, Field
-import re
-
-class FileUploadRequest(BaseModel):
-    filename: str = Field(..., min_length=1, max_length=255)
-    content_type: str = Field(..., regex="^application/pdf$")
-    file_size: int = Field(..., gt=0, le=10485760)  # Max 10MB
-    
-    @validator('filename')
-    def sanitize_filename(cls, v):
-        # Remove path components
-        v = os.path.basename(v)
-        # Remove dangerous characters
-        v = re.sub(r'[^\w\s\-\.]', '', v)
-        # Check for null bytes
-        if '\x00' in v:
-            raise ValueError("Null bytes not allowed")
-        return v
-```
-
-#### 4. **Rate Limiting (Basic)**
-```python
-from fastapi import FastAPI, Request, HTTPException
-from slowapi import Limiter
-from slowapi.util import get_remote_address
-
-limiter = Limiter(key_func=get_remote_address)
-app = FastAPI()
-
-@app.post("/upload")
-@limiter.limit("10/minute")  # Critical: Prevent DoS
-async def upload_file(request: Request):
-    # File upload logic
-    pass
-```
-
-#### 5. **Security Headers**
-```javascript
-// next.config.js
-module.exports = {
-  async headers() {
-    return [
-      {
-        source: '/:path*',
-        headers: [
-          {
-            key: 'X-Content-Type-Options',
-            value: 'nosniff'
-          },
-          {
-            key: 'X-Frame-Options',
-            value: 'DENY'
-          },
-          {
-            key: 'X-XSS-Protection',
-            value: '1; mode=block'
-          },
-          {
-            key: 'Strict-Transport-Security',
-            value: 'max-age=31536000; includeSubDomains'
-          },
-          {
-            key: 'Referrer-Policy',
-            value: 'strict-origin-when-cross-origin'
-          }
-        ]
-      }
-    ]
-  }
-}
-```
-
-### ⚠️ P1 - HIGH PRIORITY (Must Have - Week 2) - **SUPABASE IMPLEMENTATION**
-
-#### 1. **Supabase Auth Setup**
+- Use `/compact` command when context gets too large  
+- Keep responses concise and focused on the task
+- Batch tool calls for optimal performance
+- Notes go in completedtask.md, not here
+
+## 🎯 PROJECT STATUS: PRODUCTION READY FOR LAUNCH
+
+**Core System Complete:**
+- ✅ Backend: FastAPI, P0 Security, PDF processing, tier-based rate limiting
+- ✅ Frontend: Next.js, shadcn/ui, responsive design, file upload workflow  
+- ✅ Authentication: Supabase Auth, user tiers, JWT validation
+- ✅ Payment: Stripe integration with 4-tier pricing ($19.99-$149)
+- ✅ SEO: "PDF to Excel" keywords (2.28M searches), schema markup
+- ✅ Security: Grade A (95.45% pass rate), comprehensive headers
+- ✅ Performance: Sub-second processing (0.03s-2.99s)
+
+## 🚀 IMMEDIATE LAUNCH ACTIONS
+- [ ] Deploy frontend to Vercel with environment variables  
+- [ ] Deploy backend to Railway/Render with production config
+- [ ] Configure custom domains and CORS settings
+- [ ] Monitor health endpoints for 24-48 hours
+- [ ] Submit to Product Hunt with "3x Faster PDF to Excel" messaging
+
+## 📈 POST-LAUNCH ROADMAP
+
+**Week 1-2: Core Features**
+- [ ] Publish Accuracy Benchmarks (use existing `pdf_accuracy_test_results.json`)
+- [ ] Confidence Score in Preview (% accuracy overlay)
+- [ ] Usage Dashboard with upgrade CTAs
+
+**Week 3-4: Developer Features**
+- [ ] API Access for paid users
+- [ ] Google Drive Import (OAuth integration)
+- [ ] Batch Processing (paid tiers only)
+
+**Month 2+: Enterprise & Scale**
+- [ ] Multi-language OCR
+- [ ] File Type Detection (numbers, currency, dates)
+- [ ] White-label Solutions
+
+## 🔒 SECURITY STATUS: GRADE A IMPLEMENTATION
+
+**P0 Security (COMPLETED):**
+- ✅ PDF validation (magic bytes, file size, embedded content checks)
+- ✅ Path traversal prevention with secure file handling
+- ✅ Input validation & sanitization (Pydantic models)
+- ✅ Tier-based rate limiting (5/day free, 10/min extraction)
+- ✅ Security headers (CSP, HSTS, X-Frame-Options, etc.)
+
+**P1 Security (COMPLETED):**
+- ✅ Supabase Auth integration with JWT validation
+- ✅ User tier management and usage tracking  
+- ✅ Environment-based CORS configuration
+- ✅ Error response standardization (400/422 vs 500)
+
+**Current Security Grade:** A (95.45% pass rate)
+
+## 💻 DEVELOPMENT TOOLS & SETUP
+
+**Active MCP Servers:**
+- ✅ **Context7 MCP** - Code documentation and build context  
+- ✅ **Magic MCP** - UI components and design system
+- ✅ **Playwright MCP** - End-to-end testing automation
+
+**Environment Requirements:**
 ```bash
-# Frontend dependencies
-npm install @supabase/supabase-js @supabase/auth-ui-react @supabase/auth-ui-shared
-
-# Backend dependencies  
-pip install supabase python-gotrue
-```
-
-#### 2. **Frontend Auth Implementation**
-```typescript
-// lib/supabase.ts
-import { createClient } from '@supabase/supabase-js'
-
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!
-const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-
-export const supabase = createClient(supabaseUrl, supabaseAnonKey)
-
-// components/auth/AuthProvider.tsx
-import { Auth } from '@supabase/auth-ui-react'
-import { ThemeSupa } from '@supabase/auth-ui-shared'
-```
-
-#### 3. **Backend Auth Validation**
-```python
-# backend/auth/supabase_auth.py
-from supabase import create_client
-from fastapi import HTTPException, Depends
-from fastapi.security import HTTPBearer
-
-class SupabaseAuth:
-    def __init__(self):
-        self.supabase = create_client(
-            os.environ['SUPABASE_URL'], 
-            os.environ['SUPABASE_SERVICE_KEY']
-        )
-    
-    async def verify_token(self, token: str):
-        """Verify Supabase JWT token"""
-        try:
-            user = self.supabase.auth.get_user(token)
-            return user
-        except Exception:
-            raise HTTPException(status_code=401, detail="Invalid token")
-```
-
-#### 4. **User Tiers & Usage Tracking**
-```sql
--- Supabase database schema
-CREATE TABLE user_profiles (
-    id uuid REFERENCES auth.users PRIMARY KEY,
-    tier text DEFAULT 'free' CHECK (tier IN ('free', 'starter', 'professional', 'business', 'enterprise')),
-    pages_used_today integer DEFAULT 0,
-    pages_used_month integer DEFAULT 0,
-    last_reset_date date DEFAULT CURRENT_DATE,
-    created_at timestamp with time zone DEFAULT now()
-);
-
--- Row Level Security (RLS)
-ALTER TABLE user_profiles ENABLE ROW LEVEL SECURITY;
-CREATE POLICY "Users can view own profile" ON user_profiles FOR SELECT USING (auth.uid() = id);
-```
-
-#### 5. **Rate Limiting by User Tier**
-```python
-class TierBasedRateLimiter:
-    TIER_LIMITS = {
-        'free': {'daily': 5, 'monthly': 50},
-        'starter': {'daily': 50, 'monthly': 500}, 
-        'professional': {'daily': 150, 'monthly': 1500},
-        'business': {'daily': 500, 'monthly': 5000},
-        'enterprise': {'daily': -1, 'monthly': -1}  # Unlimited
-    }
-    
-    async def check_user_limits(self, user_id: str, tier: str):
-        """Check if user has exceeded their tier limits"""
-        usage = await self.get_user_usage(user_id)
-        limits = self.TIER_LIMITS[tier]
-        
-        if limits['daily'] > 0 and usage['pages_used_today'] >= limits['daily']:
-            raise HTTPException(status_code=429, detail="Daily limit exceeded")
-        
-        if limits['monthly'] > 0 and usage['pages_used_month'] >= limits['monthly']:
-            raise HTTPException(status_code=429, detail="Monthly limit exceeded")
-```
-
-#### 6. **Environment Variables (Supabase)**
-```bash
-# .env.local (Frontend)
+# Frontend (.env.local)
 NEXT_PUBLIC_SUPABASE_URL=https://your-project.supabase.co
 NEXT_PUBLIC_SUPABASE_ANON_KEY=your-anon-key
 
-# .env (Backend)
+# Backend (.env)  
 SUPABASE_URL=https://your-project.supabase.co
 SUPABASE_SERVICE_KEY=your-service-role-key
-SUPABASE_JWT_SECRET=your-jwt-secret
+ALLOWED_ORIGINS=http://localhost:3000,https://your-domain.com
 ```
 
-### 📦 P2 - MEDIUM PRIORITY (Should Have - Week 3)
+**Pricing Tiers:**
+- **Free:** 5 pages/day (registered), 1 page/day (anonymous)
+- **Starter:** $19.99/month (500 pages) 
+- **Professional:** $49.99/month (1,500 pages + API)
+- **Business:** $79.99/month (5,000 pages + white-label)
+- **Enterprise:** Contact sales (unlimited)
 
-#### 1. **Content Security Policy (CSP)**
-```javascript
-// Enhanced CSP for XSS protection
-{
-  key: 'Content-Security-Policy',
-  value: `
-    default-src 'self';
-    script-src 'self' 'unsafe-inline' https://cdn.vercel-insights.com;
-    style-src 'self' 'unsafe-inline';
-    img-src 'self' data: https:;
-    connect-src 'self';
-    frame-ancestors 'none';
-    base-uri 'self';
-    form-action 'self';
-  `.replace(/\s{2,}/g, ' ').trim()
-}
-```
+## 📚 QUICK REFERENCE
 
-#### 2. **API Key Management (If implementing paid tier)**
-```python
-import hashlib
-import secrets
+**Target Keywords:** "PDF to Excel" (2.28M searches), "convert PDF to Excel" (570K)
+**Performance:** Sub-second processing (0.03-2.99s), 95%+ accuracy
+**Budget:** $200 CAD max, using free tiers (Vercel, Supabase, Cloudflare)
+**Security:** Grade A (95.45% pass rate), all P0/P1 measures implemented
 
-class APIKeyManager:
-    def generate_api_key(self, user_id: str) -> str:
-        key_id = secrets.token_urlsafe(8)
-        key_secret = secrets.token_urlsafe(32)
-        api_key = f"pdf_{key_id}_{key_secret}"
-        
-        # Store hashed version
-        key_hash = hashlib.sha256(api_key.encode()).hexdigest()
-        self.store_api_key(user_id, key_id, key_hash)
-        
-        return api_key
-```
-
-#### 3. **Logging & Monitoring**
-```python
-import logging
-from datetime import datetime
-
-class SecurityLogger:
-    def __init__(self):
-        self.logger = logging.getLogger('security')
-        
-    def log_security_event(self, event_type: str, details: dict):
-        self.logger.warning({
-            'timestamp': datetime.utcnow().isoformat(),
-            'type': event_type,
-            'ip': details.get('ip'),
-            'details': details
-        })
-```
-
-#### 4. **Database Security (If using database)**
-```python
-from sqlalchemy import create_engine
-
-# Use parameterized queries
-engine = create_engine(
-    f"postgresql://{user}:{password}@{host}/{database}",
-    connect_args={"sslmode": "require"},
-    pool_pre_ping=True
-)
-```
-
-### 🔷 P3 - LOW PRIORITY (Nice to Have - Week 4+)
-
-#### 1. **Advanced Rate Limiting with Redis**
-```python
-import redis
-from datetime import datetime, timedelta
-
-class AdvancedRateLimiter:
-    def __init__(self):
-        self.redis_client = redis.Redis(host='localhost', port=6379)
-        
-    def check_rate_limit(self, ip: str, limit: int = 100) -> bool:
-        key = f"rate_limit:{ip}"
-        current = self.redis_client.incr(key)
-        if current == 1:
-            self.redis_client.expire(key, 3600)
-        return current <= limit
-```
-
-#### 2. **Malware Scanning (ClamAV Integration)**
-```python
-import pyclamd
-
-class MalwareScanner:
-    def __init__(self):
-        self.clam = pyclamd.ClamdUnixSocket()
-        
-    def scan_file(self, file_path: str) -> bool:
-        result = self.clam.scan_file(file_path)
-        if result and result[file_path] != 'OK':
-            raise SecurityError(f"Malware detected: {result}")
-        return True
-```
-
-#### 3. **Security Incident Response**
-```python
-class IncidentResponse:
-    def detect_attack_pattern(self, events: list) -> bool:
-        # Detect suspicious patterns
-        failed_attempts = [e for e in events if e['type'] == 'failed_login']
-        if len(failed_attempts) > 5:
-            self.trigger_alert("Potential brute force attack")
-            return True
-        return False
-```
-
-#### 4. **Zero-Trust Architecture**
-```python
-class ZeroTrustMiddleware:
-    async def __call__(self, request: Request, call_next):
-        # Verify every request
-        if not self.verify_request_signature(request):
-            return JSONResponse(status_code=403, content={"detail": "Invalid request"})
-        
-        response = await call_next(request)
-        return response
-```
-
-### 🚀 P4 - FUTURE ENHANCEMENTS (Post-Launch)
-
-1. **Web Application Firewall (WAF)** - Cloudflare Pro
-2. **Penetration Testing** - Quarterly security audits
-3. **Bug Bounty Program** - After reaching profitability
-4. **SOC 2 Compliance** - For enterprise customers
-5. **End-to-End Encryption** - For sensitive documents
-6. **Multi-Factor Authentication** - For user accounts
-7. **GDPR Compliance Suite** - For EU market
-8. **Advanced DDoS Protection** - AWS Shield Standard
+**Success Metrics:**
+- 500+ MAU within 3 months  
+- $1,000 MRR within 6 months
+- 10% conversion rate (free → paid)
+- <30s processing, 95%+ accuracy
 
 ---
 
-## ✅ COMPLETED TASKS & FUTURE ROADMAP
-
-### ✅ COMPLETED - Core System (Production Ready)
-**Backend Development - COMPLETED**
-- [x] Set up Python environment with required libraries
-- [x] **P0: Implement secure PDF validation and parsing**
-- [x] **P0: Add path traversal prevention**
-- [x] **P0: Implement input validation**
-- [x] Create table detection algorithm (auto-identify tables)
-- [x] Build CSV/Excel/JSON export functionality
-- [x] **P0: Add rate limiting**
-- [x] Add error handling and file validation
-- [x] Test with comprehensive PDF types (financial, research, business)
-
-**Infrastructure Setup - COMPLETED**
-- [x] Configure FastAPI serverless functions
-- [x] **P0: Set up secure file storage with auto-deletion**
-- [x] Implement file cleanup (auto-delete after processing)
-- [x] **P0: Configure security headers**
-- [x] **P0: Set up environment variables securely**
-- [x] Set up logging and monitoring
-
-**Frontend Development - COMPLETED**
-- [x] Create landing page with drag-and-drop uploader
-- [x] Build progress indicators and loading states
-- [x] Implement download links and file management
-- [x] Create responsive mobile design with two-column layout
-- [x] **Implement Supabase Auth UI**
-- [x] **Add shadcn/ui component standardization**
-- [x] **Fix file upload workflow completely**
-
-**Supabase Integration - COMPLETED**
-- [x] **Setup Supabase project and configure auth**
-- [x] **Create user profiles table with tier system**
-- [x] **Implement frontend auth components**
-- [x] **Add backend JWT validation**
-- [x] **Replace rate limiting with tier-based limits**
-- [x] **Add usage tracking and analytics**
-
-**Performance & Security - COMPLETED**
-- [x] Optimize table detection algorithms (sub-second processing)
-- [x] **P1: Add resource limits for PDF processing**
-- [x] Create confidence scoring for extractions
-- [x] Export format options (CSV, Excel, JSON)
-- [x] **P2: Implement CSP headers**
-- [x] **P2: Add security logging**
-- [x] Comprehensive testing (118 tests, 85.2% pass rate)
-- [x] Load testing (25 concurrent users)
-- [x] **Security testing (Grade A - 95.45% pass rate)**
-- [x] Cross-browser compatibility testing
-
-**Payment & SEO - COMPLETED**
-- [x] Stripe integration with 4-tier pricing
-- [x] SEO optimization (meta tags, schema markup, robots.txt)
-- [x] SEO strategy pivot to "PDF to Excel" (2.28M searches)
-- [x] Competitive analysis (3x performance advantage)
-
-**OCR & Advanced Features - COMPLETED**
-- [x] **OCR for Scanned PDFs (Paid Only)** - Tesseract integration complete
-- [x] **Automatic Scanned PDF Detection** - Smart fallback to OCR when needed
-- [x] **Tier-based Feature Access** - OCR restricted to paid users only
-- [x] **Multi-method Extraction** - pdfplumber, camelot, tabula, OCR fallback
-- [x] **Accuracy Feedback Widget** - Complete user feedback system with social proof
-- [x] **Real-time Statistics** - Live accuracy tracking and display
-
-### 🔮 FUTURE ENHANCEMENTS (Post-Launch)
-
-#### Phase 1: Advanced Features  
-- [ ] **Usage Dashboard** - Enhanced user analytics and upgrade CTAs
-- [ ] **Batch Processing (Paid)** - Multiple file uploads for paid tiers
-- [ ] **Enhanced OCR Languages** - Multi-language OCR support beyond English
-
-#### Phase 2: Developer & Business Features  
-- [ ] **API Access** - Expose endpoints for paid users with key management
-- [ ] **File Type Detection** - Auto-detect numbers, currency, dates
-- [ ] **Google Drive Import** - OAuth integration for cloud file access
-- [ ] **Prepaid Page Bundles** - Extra credit system
-
-#### Phase 3: Enterprise & Scale
-- [ ] **Multi-language OCR** - After English OCR validation
-- [ ] **Cross-platform Apps** - Desktop/mobile wrappers
-- [ ] **White-label Solutions** - Custom branding options
-- [ ] **Advanced Analytics** - Detailed usage insights
-
----
-
-## 📋 Task Management System
+*Single source of truth for PDFTablePro. All task notes go in completedtask.md to save space. Use Context7 MCP for planning, Magic MCP for UI, and always check impact of changes.*
 
 ### Development Workflow
 ```
@@ -1172,3 +505,4 @@ jobs:
 - Add to memory. Always read claude.md then follow build instruction including the optimization of context limit and always notate claude.md on what we are doing
 - Add to memory. Use Context7 MCP server to plan out with the build. Use Magic MCP server for UI components and guide. Use AI Agents that you built for this project to help you with the project.
 - add to memory. your new notes will not be notated on @completedtask.md and not in claude.md to save space.
+- While building or fixing stuff, always check your work, check others that might be affected if you make changes to x or y functions or codes.

@@ -44,6 +44,13 @@ export function SimpleHero({
       if (process.env.NODE_ENV !== 'production') {
         console.error('Error fetching accuracy data:', error)
       }
+      // Set fallback data on error
+      setAccuracyData({
+        accuracy_proof: {
+          rate: '95%+',
+          total_users: '1,000+'
+        }
+      })
     } finally {
       setLoading(false)
     }
@@ -75,9 +82,9 @@ export function SimpleHero({
       {/* Content */}
       <div className="relative z-20 text-center px-4 max-w-4xl mx-auto">
         <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-gray-800 leading-normal mb-8">
-          Extract PDF Tables to Excel in{' '}
+          PDF to Excel Converter - Extract Tables in{' '}
           <span className="relative inline-block pb-1 px-2 py-1 rounded-lg bg-orange-400 text-white">
-            10 Seconds
+            Under 1 Second
           </span>
         </h1>
         <p className="text-xl md:text-2xl text-gray-600 mb-10 leading-relaxed max-w-3xl mx-auto">

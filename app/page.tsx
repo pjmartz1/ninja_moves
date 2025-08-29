@@ -1,6 +1,7 @@
 'use client'
 
 import React, { useState } from 'react'
+import { useAuth } from '@/components/auth/AuthProvider'
 import FileUploaderTwoColumn from '@/components/upload/FileUploaderTwoColumn'
 import ProgressBar from '@/components/upload/ProgressBar'
 import DownloadButtons from '@/components/results/DownloadButtons'
@@ -16,11 +17,13 @@ import { getApiUrl, apiRequest } from '@/lib/config'
 import { Zap, Target, ShieldCheck } from 'lucide-react'
 
 export default function HomePage() {
+  const { user } = useAuth()
   const [isProcessing, setIsProcessing] = useState(false)
   const [processingProgress, setProcessingProgress] = useState(0)
   const [extractedData, setExtractedData] = useState<any>(null)
   const [showAuthModal, setShowAuthModal] = useState(false)
   const [authView, setAuthView] = useState<'sign_in' | 'sign_up'>('sign_in')
+  const [showUserDashboard, setShowUserDashboard] = useState(false)
 
   const handleSignInClick = () => {
     setAuthView('sign_in')
@@ -85,10 +88,17 @@ export default function HomePage() {
         waveColor="#f97316"
       />
 
-
-      {/* Upload Section */}
+      {/* User Dashboard & Upload Section */}
       <section className="container mx-auto px-4 py-16">
         <div className="max-w-6xl mx-auto">
+          <h2 className="text-3xl font-bold text-center mb-8 text-gray-900">Upload Your PDF Document</h2>
+          {/* User Dashboard - Show when logged in */}
+          {user && (
+            <div className="mb-8">
+              <UserDashboard />
+            </div>
+          )}
+          
           {!isProcessing && !extractedData && (
             <FileUploaderTwoColumn onFileUpload={handleFileUpload} />
           )}
@@ -119,25 +129,30 @@ export default function HomePage() {
       </section>
 
       {/* Features Section */}
-      <SimpleFeatures
-        features={[
-          {
-            icon: Zap,
-            title: "Lightning Fast",
-            description: "Extract tables in under 30 seconds with our optimized AI engine powered by advanced algorithms"
-          },
-          {
-            icon: ShieldCheck,
-            title: "Enterprise Secure",
-            description: "Files auto-deleted after processing with enterprise-grade security and privacy protection"
-          },
-          {
-            icon: Target,
-            title: "95%+ Accuracy",
-            description: "Advanced AI algorithms ensure precise table structure recognition across all document types"
-          }
-        ]}
-      />
+      <section className="container mx-auto px-4 py-16">
+        <div className="max-w-6xl mx-auto">
+          <h2 className="text-3xl font-bold text-center mb-12 text-gray-900">Why Choose PDF2Excel.app</h2>
+          <SimpleFeatures
+            features={[
+              {
+                icon: Zap,
+                title: "Lightning Fast",
+                description: "Extract tables in under 1 second with our optimized AI engine powered by advanced algorithms"
+              },
+              {
+                icon: ShieldCheck,
+                title: "Enterprise Secure",
+                description: "Files auto-deleted after processing with enterprise-grade security and privacy protection"
+              },
+              {
+                icon: Target,
+                title: "95%+ Accuracy",
+                description: "Advanced AI algorithms ensure precise table structure recognition across all document types"
+              }
+            ]}
+          />
+        </div>
+      </section>
 
       {/* Footer */}
       <Footer />
